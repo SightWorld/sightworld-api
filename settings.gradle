@@ -1,0 +1,5 @@
+rootProject.name = 'SightAPI'
+include 'bungee-api'
+include 'default-lib'
+include 'bukkit-api'
+

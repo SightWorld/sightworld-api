@@ -1,0 +1,6 @@
+name: Bungee-Api
+version: '1.0.0'
+main: minecraft.sightworld.bungeeapi.SightWorld
+author: Dwyur
+depend:
+  - Protocolize

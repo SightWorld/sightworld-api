@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group = 'minecraft.sightworld'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+    implementation 'net.sf.ehcache:ehcache:2.10.6'
+    implementation 'org.jetbrains:annotations:24.0.1'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'co.datadome:fastutil:8.5.11.1'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
