@@ -14,9 +14,14 @@ repositories {
     maven {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+    maven {
+        name = 'minecraft-repo'
+        url = 'https://libraries.minecraft.net/'
+    }
 }
 
 dependencies {
+    compileOnly 'com.mojang:authlib:1.5.21'
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     implementation project(path: ':default-lib')
     implementation 'org.redisson:redisson:3.24.3'

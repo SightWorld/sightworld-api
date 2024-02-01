@@ -50,7 +50,7 @@ public class GamerListener extends EventListener<SightWorld> {
         val name = connection.getName();
 
         val regex = "^[a-zA-Z0-9_]+$";
-        if (connection.getName().length() < 3 || connection.getName().length() > 16) {
+        if (name.length() < 3 || name.length() > 16) {
             event.setCancelled(true);
             event.setCancelReason(new TextComponent(
                     """
@@ -67,6 +67,15 @@ public class GamerListener extends EventListener<SightWorld> {
 
                     §fВ нике есть недопустимые символы!
                     §7Разрешено использовать только цифры и английские буквы!
+                    """
+            ));
+        } else if (name.equalsIgnoreCase("Kambet")) {
+            event.setCancelled(true);
+            event.setCancelReason(new TextComponent(
+                    """
+                    §d§lSightWorld\s
+
+                    §cКамбету запрещен вход на данный сервер!
                     """
             ));
         }

@@ -56,14 +56,6 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setHeadTexture(String texture) {
-        if ((material == Material.PLAYER_HEAD) && (texture != null)) {
-            UUID hashAsId = new UUID(texture.hashCode(), texture.hashCode());
-            this.itemStack = Bukkit.getUnsafe().modifyItemStack(itemStack, "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + texture + "\"}]}}}");
-        }
-        return this;
-    }
-
     public ItemStack build() {
         itemStack.setItemMeta(meta);
         return itemStack;
