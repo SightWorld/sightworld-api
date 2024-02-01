@@ -61,5 +61,9 @@ public class ItemBuilder {
         return itemStack;
     }
 
-
+    public ItemBuilder setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
+        itemStack.setItemMeta(meta);
+        return this;
+    }
 }
