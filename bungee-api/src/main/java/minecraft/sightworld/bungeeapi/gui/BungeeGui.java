@@ -8,7 +8,6 @@ import minecraft.sightworld.defaultlib.gui.BungeeGuiDto;
 import minecraft.sightworld.defaultlib.gui.BungeeGuiItem;
 import minecraft.sightworld.defaultlib.item.SItem;
 import minecraft.sightworld.defaultlib.messaging.MessageService;
-import minecraft.sightworld.defaultlib.messaging.MessagingService;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.ArrayList;
