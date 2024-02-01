@@ -19,6 +19,7 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     implementation project(path: ':default-lib')
+    implementation 'org.redisson:redisson:3.24.3'
     implementation group: 'org.jetbrains', name: 'annotations', version: '24.0.0'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
     compileOnly 'org.projectlombok:lombok:1.18.30'

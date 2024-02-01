@@ -7,6 +7,7 @@ import minecraft.sightworld.bungeeapi.gui.service.BungeeGuiService;
 import minecraft.sightworld.defaultlib.gui.BungeeGuiDto;
 import minecraft.sightworld.defaultlib.gui.BungeeGuiItem;
 import minecraft.sightworld.defaultlib.item.SItem;
+import minecraft.sightworld.defaultlib.messaging.MessageService;
 import minecraft.sightworld.defaultlib.messaging.MessagingService;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -20,7 +21,7 @@ import java.util.function.BiConsumer;
 @Setter
 public abstract class BungeeGui {
 
-    private final MessagingService<ProxiedPlayer> messagingService = SightWorld.getMessagingService();
+    private final MessageService messagingService = SightWorld.getMessagingService();
 
     private BungeeGuiService guiService = SightWorld.getBungeeGuiService();
 
@@ -70,6 +71,7 @@ public abstract class BungeeGui {
     private void add(BungeeGuiItem bungeeGuiItem) {
         String uuid = player.getName() + "-" + UUID.randomUUID();
         bungeeGuiItem.setUuid(uuid);
+        bungeeGuiItem.setOwner(player.getName());
         guiItems.add(bungeeGuiItem);
         guiService.addItem(bungeeGuiItem);
     }
@@ -77,9 +79,10 @@ public abstract class BungeeGui {
     public abstract void draw();
 
     public void open() {
-        BungeeGuiDto defaultGui = new BungeeGuiDto(title, size);
+        BungeeGuiDto defaultGui = new BungeeGuiDto(player.getName(), title, size);
         defaultGui.setItems(guiItems);
         defaultGui.setMarkup(markup);
-        messagingService.sendMessage(player, defaultGui, "gui");
+
+        messagingService.sendMessage(defaultGui, "gui");
     }
 }

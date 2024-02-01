@@ -1,7 +1,5 @@
 package minecraft.sightworld.bungeeapi;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import lombok.Getter;
 import minecraft.sightworld.bungeeapi.command.TestGuiCommand;
 import minecraft.sightworld.bungeeapi.gui.acceptor.AcceptorListener;
@@ -9,12 +7,14 @@ import minecraft.sightworld.bungeeapi.gui.service.BungeeGuiService;
 import minecraft.sightworld.bungeeapi.gui.service.impl.BungeeGuiServiceImpl;
 import minecraft.sightworld.bungeeapi.listener.GamerListener;
 import minecraft.sightworld.bungeeapi.manager.LuckPermsManager;
-import minecraft.sightworld.bungeeapi.messaging.MessagingServiceImpl;
 import minecraft.sightworld.bungeeapi.scheduler.SchedulerManager;
-import minecraft.sightworld.defaultlib.messaging.MessagingService;
+import minecraft.sightworld.defaultlib.messaging.MessageService;
+import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
+import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
+import minecraft.sightworld.defaultlib.redis.RedisFactory;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
+import org.redisson.api.RedissonClient;
 
 public final class SightWorld extends Plugin {
 
@@ -27,7 +27,7 @@ public final class SightWorld extends Plugin {
     private final SchedulerManager schedulerManager = new SchedulerManager();
 
     @Getter
-    private static MessagingService<ProxiedPlayer> messagingService;
+    private static MessageService messagingService;
 
     @Getter
     private static BungeeGuiService bungeeGuiService;
@@ -41,10 +41,7 @@ public final class SightWorld extends Plugin {
         LuckPermsManager.registerEvents(this);
 
         bungeeGuiService = new BungeeGuiServiceImpl();
-
-        Gson gson = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        messagingService = registerMessageService(gson, jsonParser, bungeeGuiService);
+        messagingService = registerMessageService();
 
         getProxy().getPluginManager().registerCommand(this, new TestGuiCommand());
     }
@@ -54,11 +51,14 @@ public final class SightWorld extends Plugin {
         ProxyServer.getInstance().unregisterChannel(CHANNEL);
     }
 
-    private MessagingService<ProxiedPlayer> registerMessageService(Gson gson, JsonParser jsonParser, BungeeGuiService bungeeGuiService) {
-        MessagingServiceImpl messagingService = new MessagingServiceImpl(this, gson, jsonParser);
+    private MessageService registerMessageService() {
+        RedisFactory redisFactory = new DefaultRedisFactory();
+        RedissonClient redissonClient = redisFactory.create();
+
+        MessageServiceImpl messagingService = new MessageServiceImpl(redissonClient);
         messagingService.addListener(new AcceptorListener(bungeeGuiService), "gui-acceptor");
-        messagingService.registerChannels();
 
         return messagingService;
+
     }
 }

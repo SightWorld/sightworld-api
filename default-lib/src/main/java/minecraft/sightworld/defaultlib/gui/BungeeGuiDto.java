@@ -11,10 +11,13 @@ import java.util.List;
 @Getter
 @Setter
 public class BungeeGuiDto {
+
+    private final String owner;
     
     private final String title;
     
     private final int size;
+
     private List<BungeeGuiItem> items = new ArrayList<>();
 
     private List<Integer> markup = new ArrayList<>();

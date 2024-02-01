@@ -23,6 +23,7 @@ repositories {
 
 dependencies {
     implementation project(path: ':default-lib')
+    implementation 'org.redisson:redisson:3.24.3'
     compileOnly 'net.md-5:bungeecord-api:1.20-R0.2-SNAPSHOT'
     implementation group: 'org.jetbrains', name: 'annotations', version: '24.0.0'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'

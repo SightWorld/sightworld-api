@@ -1,6 +1,5 @@
 package minecraft.sightworld.defaultlib.gui;
 
-import com.google.gson.annotations.Expose;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,6 +11,8 @@ import java.util.function.BiConsumer;
 @Setter
 @RequiredArgsConstructor
 public class BungeeGuiItem {
+
+    private String owner = "";
 
     private String uuid;
 

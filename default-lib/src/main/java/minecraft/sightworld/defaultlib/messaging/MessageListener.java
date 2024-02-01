@@ -1,7 +1,8 @@
 package minecraft.sightworld.defaultlib.messaging;
 
-public interface MessageListener<P, M> {
-    void onMessage(P player, String messageChannel, M message);
+public interface MessageListener<Message> extends org.redisson.api.listener.MessageListener<Message> {
+    @Override
+    void onMessage(CharSequence charSequence, Message message);
 
-    Class<M> getMessageClass();
+    Class<Message> getMessageClass();
 }

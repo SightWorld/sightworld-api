@@ -1,16 +1,16 @@
 package minecraft.sightworld.bukkitapi;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import lombok.Getter;
 import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gui.*;
 import minecraft.sightworld.bukkitapi.listener.GamerListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeGuiListener;
-import minecraft.sightworld.bukkitapi.messaging.MessagingServiceImpl;
-import minecraft.sightworld.defaultlib.messaging.MessagingService;
-import org.bukkit.entity.Player;
+import minecraft.sightworld.defaultlib.messaging.MessageService;
+import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
+import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
+import minecraft.sightworld.defaultlib.redis.RedisFactory;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.redisson.api.RedissonClient;
 
 public class SightWorld extends JavaPlugin {
 
@@ -30,9 +30,7 @@ public class SightWorld extends JavaPlugin {
         registerListeners();
         registerGuiService();
 
-        Gson gson = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        MessagingService<Player> messagingService = registerMessageService(gson, jsonParser);
+        MessageService messagingService = registerMessageService();
     }
 
     private void registerListeners() {
@@ -51,10 +49,14 @@ public class SightWorld extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GuiListener(guiService), this);
     }
 
-    private MessagingService<Player> registerMessageService(Gson gson, JsonParser jsonParser) {
-        MessagingServiceImpl messagingService = new MessagingServiceImpl(this, gson, jsonParser);
-        messagingService.registerChannels();
+    private MessageService registerMessageService() {
+        RedisFactory redisFactory = new DefaultRedisFactory();
+        RedissonClient redissonClient = redisFactory.create();
+
+        MessageServiceImpl messagingService = new MessageServiceImpl(redissonClient);
         messagingService.addListener(new BungeeGuiListener(messagingService), "gui");
+
         return messagingService;
+
     }
 }
