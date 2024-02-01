@@ -57,14 +57,19 @@ public abstract class BungeeGui {
         setItem(sItem, onClick, -1);
     }
     public void addItem(BungeeGuiItem item) {
-        setItem(item.getItem(), item.getOnClick(), -1);
+        setItem(item, -1);
     }
     public void setItem(SItem sItem, BiConsumer<String, String> onClick, int slot) {
-        String uuid = player.getName() + "-" + UUID.randomUUID();
-        BungeeGuiItem bungeeGuiItem = new BungeeGuiItem(sItem, onClick);
+        setItem(new BungeeGuiItem(sItem, onClick), slot);
+    }
+    public void setItem(BungeeGuiItem bungeeGuiItem, int slot) {
         bungeeGuiItem.setSlot(slot);
-        bungeeGuiItem.setUuid(uuid);
+        add(bungeeGuiItem);
+    }
 
+    private void add(BungeeGuiItem bungeeGuiItem) {
+        String uuid = player.getName() + "-" + UUID.randomUUID();
+        bungeeGuiItem.setUuid(uuid);
         guiItems.add(bungeeGuiItem);
         guiService.addItem(bungeeGuiItem);
     }
