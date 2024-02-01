@@ -45,7 +45,6 @@ public class BungeeGuiListener extends BaseMessageListener<BungeeGuiDto> {
                             messagingService.sendMessage(item, "gui-acceptor");
                             System.out.println(item.isAutoClosable());
                             if (item.isAutoClosable()) {
-                                System.out.println("Итем из аутоклозейбл");
                                 player.closeInventory();
                             }
                         });
@@ -58,8 +57,12 @@ public class BungeeGuiListener extends BaseMessageListener<BungeeGuiDto> {
                 }
             };
             pagedGui.setMarkup(gui.getMarkup());
-            pagedGui.setUpdater(20);
             pagedGui.draw();
+            if (gui.getUpdater() == -1) {
+                pagedGui.drawMarkup();
+            } else {
+                pagedGui.setUpdater(gui.getUpdater());
+            }
             pagedGui.open();
         });
     }

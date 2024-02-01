@@ -14,6 +14,7 @@ public class TestGui extends BungeeGui {
         super(player, "Тестовое меню", 5);
         this.player = player;
         setDefaultMarkupItems();
+        //setUpdater(20);
         draw();
         open();
     }
@@ -22,11 +23,11 @@ public class TestGui extends BungeeGui {
     public void draw() {
         for (int i = 1; i < 100; i++) {
             int finalI = i;
-            SItem item = new SItem(SMaterial.DIAMOND);
+            SItem item = new SItem(SMaterial.PLAYER_HEAD);
             item.setTitle("Предмет #" + i);
             item.setAmount(i); //кол-во предмета
             item.setGlow(true); //светится айтем
-          //  item.setHeadTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGI5MmNiNDMzMzNhYTYyMWM3MGVlZjRlYmYyOTliYTQxMmI0NDZmZTEyZTM0MWNjYzU4MmYzMTkyMTg5In19fQ==");
+            item.setHeadTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGI5MmNiNDMzMzNhYTYyMWM3MGVlZjRlYmYyOTliYTQxMmI0NDZmZTEyZTM0MWNjYzU4MmYzMTkyMTg5In19fQ==");
 
             //Можно сразу bungee gui item добавить
             BungeeGuiItem guiItem = new BungeeGuiItem(item, (p, clickType) -> {

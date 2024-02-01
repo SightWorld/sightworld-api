@@ -30,6 +30,8 @@ public abstract class BungeeGui {
 
     private final int size;
 
+    private long updater = -1;
+
     protected BungeeGui(ProxiedPlayer player, String title, int size) {
         this.player = player;
         this.title = title;
@@ -78,7 +80,7 @@ public abstract class BungeeGui {
     public abstract void draw();
 
     public void open() {
-        BungeeGuiDto defaultGui = new BungeeGuiDto(player.getName(), title, size);
+        BungeeGuiDto defaultGui = new BungeeGuiDto(player.getName(), title, size, updater);
         defaultGui.setItems(guiItems);
         defaultGui.setMarkup(markup);
 

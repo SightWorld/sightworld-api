@@ -18,6 +18,8 @@ public class BungeeGuiDto {
     
     private final int size;
 
+    private final long updater;
+
     private List<BungeeGuiItem> items = new ArrayList<>();
 
     private List<Integer> markup = new ArrayList<>();

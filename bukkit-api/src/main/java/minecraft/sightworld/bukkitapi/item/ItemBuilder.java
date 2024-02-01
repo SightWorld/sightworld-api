@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ItemBuilder {
-    private final ItemStack itemStack;
+    private ItemStack itemStack;
     private final ItemMeta meta;
     private final Material material;
 
@@ -59,7 +59,7 @@ public class ItemBuilder {
     public ItemBuilder setHeadTexture(String texture) {
         if ((material == Material.PLAYER_HEAD) && (texture != null)) {
             UUID hashAsId = new UUID(texture.hashCode(), texture.hashCode());
-            Bukkit.getUnsafe().modifyItemStack(itemStack, "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + texture + "\"}]}}}");
+            this.itemStack = Bukkit.getUnsafe().modifyItemStack(itemStack, "{SkullOwner:{Id:\"" + hashAsId + "\",Properties:{textures:[{Value:\"" + texture + "\"}]}}}");
         }
         return this;
     }
