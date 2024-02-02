@@ -27,7 +27,6 @@ public class TestGui extends BungeeGui {
             item.setTitle("Предмет #" + i);
             item.setAmount(i); //кол-во предмета
             item.setGlow(true); //светится айтем
-            item.setHeadTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGI5MmNiNDMzMzNhYTYyMWM3MGVlZjRlYmYyOTliYTQxMmI0NDZmZTEyZTM0MWNjYzU4MmYzMTkyMTg5In19fQ==");
 
             //Можно сразу bungee gui item добавить
             BungeeGuiItem guiItem = new BungeeGuiItem(item, (p, clickType) -> {

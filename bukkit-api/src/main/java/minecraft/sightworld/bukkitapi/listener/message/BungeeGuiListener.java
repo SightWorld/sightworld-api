@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.gui.GuiItem;
 import minecraft.sightworld.bukkitapi.gui.PagedGui;
-import minecraft.sightworld.bukkitapi.item.HeadBuilder;
 import minecraft.sightworld.bukkitapi.item.ItemBuilder;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
 import minecraft.sightworld.defaultlib.gui.BungeeGuiDto;
@@ -36,10 +35,6 @@ public class BungeeGuiListener extends BaseMessageListener<BungeeGuiDto> {
                                 .setDisplayName(item.getItem().getTitle())
                                 .setAmount(item.getItem().getAmount())
                                 .setLore(item.getItem().getLore());
-                        if (item.getItem().getHeadTexture() != null) {
-                            HeadBuilder headBuilder = new HeadBuilder(item.getItem().getHeadTexture());
-                            itemBuilder.setItemStack(headBuilder.build());
-                        }
                         if (item.getItem().isGlow()) {
                             itemBuilder.addEnchantment(Enchantment.PROTECTION_FALL, 1);
                             itemBuilder.addFlags(ItemFlag.HIDE_ENCHANTS);
@@ -47,7 +42,6 @@ public class BungeeGuiListener extends BaseMessageListener<BungeeGuiDto> {
                         GuiItem guiItem = new GuiItem(itemBuilder.build(), (player1, clickType) -> {
                             item.setClickType(clickType.name());
                             messagingService.sendMessage(item, "gui-acceptor");
-                            System.out.println(item.isAutoClosable());
                             if (item.isAutoClosable()) {
                                 player.closeInventory();
                             }

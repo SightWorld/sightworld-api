@@ -13,7 +13,6 @@ public class SItem {
     private final SMaterial material;
 
     private String title = "";
-    private String headTexture = null;
 
     private List<String> lore = new ArrayList<>();
 
