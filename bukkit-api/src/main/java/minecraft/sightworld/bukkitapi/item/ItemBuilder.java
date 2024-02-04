@@ -7,6 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
@@ -53,6 +54,13 @@ public class ItemBuilder {
     }
     public ItemBuilder setCustomModelData(int modelData) {
         meta.setCustomModelData(modelData);
+        return this;
+    }
+
+    public ItemBuilder setHeadOwner(String owner) {
+        if (owner != null || material == Material.PLAYER_HEAD) {
+            ((SkullMeta) meta).setOwningPlayer(Bukkit.getOfflinePlayer(owner));
+        }
         return this;
     }
 

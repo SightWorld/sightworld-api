@@ -23,7 +23,7 @@ public class TestGui extends BungeeGui {
     public void draw() {
         for (int i = 1; i < 100; i++) {
             int finalI = i;
-            SItem item = new SItem(SMaterial.PLAYER_HEAD);
+            SItem item = new SItem(SMaterial.DIAMOND);
             item.setTitle("Предмет #" + i);
             item.setAmount(i); //кол-во предмета
             item.setGlow(true); //светится айтем

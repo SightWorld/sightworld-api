@@ -14,7 +14,7 @@ import minecraft.sightworld.defaultlib.utils.Pair;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LinkSection extends Section {
 
-    long discordId = -1;
+    int discordId = -1;
 
     public LinkSection(IBaseGamer baseGamer) {
         super(baseGamer);

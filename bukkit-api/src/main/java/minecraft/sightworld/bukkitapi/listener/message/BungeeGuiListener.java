@@ -34,7 +34,8 @@ public class BungeeGuiListener extends BaseMessageListener<BungeeGuiDto> {
                         ItemBuilder itemBuilder = new ItemBuilder(Material.valueOf(item.getItem().getMaterial().name().toUpperCase()))
                                 .setDisplayName(item.getItem().getTitle())
                                 .setAmount(item.getItem().getAmount())
-                                .setLore(item.getItem().getLore());
+                                .setLore(item.getItem().getLore())
+                                .setHeadOwner(item.getItem().getHeadOwner());
                         if (item.getItem().isGlow()) {
                             itemBuilder.addEnchantment(Enchantment.PROTECTION_FALL, 1);
                             itemBuilder.addFlags(ItemFlag.HIDE_ENCHANTS);

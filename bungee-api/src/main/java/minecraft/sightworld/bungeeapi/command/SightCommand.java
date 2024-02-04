@@ -7,7 +7,7 @@ import lombok.val;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntityManager;
-import minecraft.sightworld.defaultlib.utils.Cooldown;
+import minecraft.sightworld.defaultlib.utils.cooldown.GamerCooldown;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -84,10 +84,10 @@ public abstract class SightCommand extends Command implements TabExecutor { // �
             }
 
             if (!gamer.isAdmin()) {
-                if (Cooldown.hasCooldown(player.getName(), cooldownType)) {
+                if (GamerCooldown.hasCooldown(player.getName(), cooldownType)) {
                     if (cooldown != FINAL_COOLDOWN) {
                         if (cooldownError == null) {
-                            val time = Cooldown.getSecondCooldown(player.getName(), cooldownType);
+                            val time = GamerCooldown.getSecondCooldown(player.getName(), cooldownType);
                             entity.sendMessage("§cДанную команду можно использовать 1 раз в " + time + " секунд!");
                         } else {
                             entity.sendMessage(cooldownError);
@@ -95,7 +95,7 @@ public abstract class SightCommand extends Command implements TabExecutor { // �
                     }
                     return;
                 }
-                Cooldown.addCooldown(player.getName(), cooldownType, cooldown);
+                GamerCooldown.addCooldown(player.getName(), cooldownType, cooldown);
             }
         }
 

@@ -1,4 +1,4 @@
-package minecraft.sightworld.defaultlib.utils;
+package minecraft.sightworld.defaultlib.utils.cooldown;
 
 
 import lombok.experimental.UtilityClass;
@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @UtilityClass
-public class Cooldown {
+public class GamerCooldown {
     private static final ScheduledExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final Map<String, Map<String, Long>> PLAYERS = new ConcurrentHashMap<>();
 

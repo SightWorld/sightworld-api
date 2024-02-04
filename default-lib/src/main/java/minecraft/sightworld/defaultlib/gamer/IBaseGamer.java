@@ -1,5 +1,9 @@
 package minecraft.sightworld.defaultlib.gamer;
 
+import it.unimi.dsi.fastutil.ints.IntSet;
+import minecraft.sightworld.defaultlib.gamer.constants.JoinMessage;
+import minecraft.sightworld.defaultlib.gamer.friends.Friend;
+import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
 
 import java.util.Map;
@@ -38,6 +42,18 @@ public interface IBaseGamer {
 
     void setRuby(int value);
     void changeRuby(int value);
+    int getRuby();
+
+
+    void setDefaultJoinMessage(JoinMessage message);
+    JoinMessage getJoinMessage();
+
+    void setDiscordID(int value);
+    int getDiscordID();
+
+    boolean isFriend(Friend friend);
+    void changeFriend(FriendAction action, Friend friend);
+    IntSet getFriends();
 
 
     default boolean isDonater() {

@@ -1,0 +1,25 @@
+package minecraft.sightworld.bungeeapi.gui.test;
+
+import minecraft.sightworld.bungeeapi.command.SightCommand;
+import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
+import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+public class TestCommand extends SightCommand {
+    public TestCommand() {
+        super("testco");
+        setOnlyPlayers(true);
+    }
+
+
+    @Override
+    public void execute(BungeeEntity entity, String[] args) {
+        ProxiedPlayer player = ((BungeeGamer) entity).getPlayer();
+        new TestGui(player);
+    }
+
+    @Override
+    public Iterable<String> tabComplete(BungeeEntity entity, String[] args) {
+        return null;
+    }
+}

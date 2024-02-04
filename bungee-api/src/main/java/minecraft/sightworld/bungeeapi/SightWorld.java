@@ -1,10 +1,10 @@
 package minecraft.sightworld.bungeeapi;
 
 import lombok.Getter;
-import minecraft.sightworld.bungeeapi.command.TestGuiCommand;
 import minecraft.sightworld.bungeeapi.gui.acceptor.AcceptorListener;
 import minecraft.sightworld.bungeeapi.gui.service.BungeeGuiService;
 import minecraft.sightworld.bungeeapi.gui.service.impl.BungeeGuiServiceImpl;
+import minecraft.sightworld.bungeeapi.gui.test.TestCommand;
 import minecraft.sightworld.bungeeapi.listener.GamerListener;
 import minecraft.sightworld.bungeeapi.manager.LuckPermsManager;
 import minecraft.sightworld.bungeeapi.scheduler.SchedulerManager;
@@ -17,8 +17,6 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.redisson.api.RedissonClient;
 
 public final class SightWorld extends Plugin {
-
-    public static final String CHANNEL = "sightworld";
 
     @Getter
     private static SightWorld instance;
@@ -36,19 +34,17 @@ public final class SightWorld extends Plugin {
     public void onEnable() {
         instance = this;
 
-        ProxyServer.getInstance().registerChannel(CHANNEL); // TODO: channelAPI
         new GamerListener(this);
         LuckPermsManager.registerEvents(this);
 
         bungeeGuiService = new BungeeGuiServiceImpl();
         messagingService = registerMessageService();
-
-        getProxy().getPluginManager().registerCommand(this, new TestGuiCommand());
+        getProxy().getPluginManager().registerCommand(this, new TestCommand());
     }
 
     @Override
     public void onDisable() {
-        ProxyServer.getInstance().unregisterChannel(CHANNEL);
+
     }
 
     private MessageService registerMessageService() {

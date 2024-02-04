@@ -1,10 +1,13 @@
 package minecraft.sightworld.defaultlib.gamer;
 
 import com.google.common.collect.ImmutableSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
 import minecraft.sightworld.defaultlib.gamer.constants.JoinMessage;
+import minecraft.sightworld.defaultlib.gamer.friends.Friend;
+import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.*;
 import minecraft.sightworld.defaultlib.manager.VanishManager;
 
@@ -49,7 +52,7 @@ public abstract class IBaseGamerImpl implements IBaseGamer {
     }
 
     protected Set<Class<? extends Section>> initSections() {
-        return Set.of(MoneySection.class, FriendSection.class);
+        return Set.of(MoneySection.class, FriendSection.class, LinkSection.class);
     }
 
     public final <T extends Section> void initSection(Class<T> clazz) {
@@ -83,9 +86,12 @@ public abstract class IBaseGamerImpl implements IBaseGamer {
         return getSection(BaseSection.class).getPlayerID();
     }
 
+    @Override
     public JoinMessage getJoinMessage() {
         return getSection(JoinMessageSection.class).getJoinMessage();
     }
+
+    @Override
     public void setDefaultJoinMessage(JoinMessage joinMessage) {
         getSection(JoinMessageSection.class).setDefaultJoinMessage(joinMessage, true);
     }
@@ -151,5 +157,35 @@ public abstract class IBaseGamerImpl implements IBaseGamer {
     @Override
     public void setRuby(int value) {
         getSection(MoneySection.class).setRuby(value);
+    }
+
+    @Override
+    public int getRuby() {
+        return getSection(MoneySection.class).getRuby();
+    }
+
+    @Override
+    public IntSet getFriends() {
+        return getSection(FriendSection.class).getFriends();
+    }
+
+    @Override
+    public void changeFriend(FriendAction action, Friend friend) {
+        getSection(FriendSection.class).changeFriend(action, friend);
+    }
+
+    @Override
+    public boolean isFriend(Friend friend) {
+        return getSection(FriendSection.class).isFriend(friend);
+    }
+
+    @Override
+    public int getDiscordID() {
+        return getSection(LinkSection.class).getDiscordId();
+    }
+
+    @Override
+    public void setDiscordID(int value) {
+        getSection(LinkSection.class).setDiscordID(value);
     }
 }
