@@ -54,8 +54,8 @@ public class JoinMessage {
     }
 
 
-    private static void addMessage(int id, String key, int priceGold, boolean neko) {
-        MESSAGES.put(id, new JoinMessage(id, key, (priceGold > 0 ? priceGold : 0), neko));
+    private static void addMessage(int id, String key, int priceRuby, boolean wither) {
+        MESSAGES.put(id, new JoinMessage(id, key, (priceRuby > 0 ? priceRuby : 0), wither));
     }
 
     static {

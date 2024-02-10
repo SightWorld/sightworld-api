@@ -4,9 +4,9 @@ import lombok.Getter;
 import minecraft.sightworld.defaultlib.gamer.IBaseGamer;
 import minecraft.sightworld.defaultlib.gamer.IBaseGamerImpl;
 
+@Getter
 public abstract class Section {
 
-    @Getter
     protected final IBaseGamerImpl baseGamer;
 
     public Section(IBaseGamer baseGamer) {

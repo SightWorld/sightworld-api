@@ -4,5 +4,7 @@ main: minecraft.sightworld.bukkitapi.SightWorld
 api-version: 1.16
 author: Dwyur
 load: STARTUP
+depend:
+  - ProtocolLib
 commands:
   pidoras:

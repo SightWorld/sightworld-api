@@ -15,13 +15,12 @@ repositories {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
     maven {
-        name = 'minecraft-repo'
-        url = 'https://libraries.minecraft.net/'
+        url "https://repo.dmulloy2.net/repository/public/"
     }
 }
 
 dependencies {
-    compileOnly 'com.mojang:authlib:1.5.21'
+    compileOnly group: 'com.comphenix.protocol', name: 'ProtocolLib', version: '5.1.0'
     compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
     implementation project(path: ':default-lib')
     implementation 'org.redisson:redisson:3.24.3'

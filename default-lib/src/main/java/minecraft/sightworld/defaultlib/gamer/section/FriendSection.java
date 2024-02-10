@@ -13,12 +13,12 @@ import minecraft.sightworld.defaultlib.sql.api.table.TableColumn;
 import minecraft.sightworld.defaultlib.sql.api.table.TableConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public class FriendSection extends Section {
 
-    @Getter
     private final IntSet friends = new IntOpenHashSet();
 
-    @Getter @Setter
+    @Setter
     private int friendsLimit = 60; // TODO: Сделать лимиты в зависимости с группой игрока
 
     public FriendSection(IBaseGamer baseGamer) {

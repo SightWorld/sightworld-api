@@ -14,6 +14,8 @@ import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
 import minecraft.sightworld.defaultlib.redis.RedisFactory;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.score.Scoreboard;
+import net.md_5.bungee.api.score.Team;
 import org.redisson.api.RedissonClient;
 
 public final class SightWorld extends Plugin {

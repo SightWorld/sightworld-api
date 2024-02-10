@@ -1,5 +1,7 @@
 package minecraft.sightworld.bukkitapi;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import lombok.Getter;
 import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gui.*;
@@ -14,34 +16,38 @@ import org.redisson.api.RedissonClient;
 
 public class SightWorld extends JavaPlugin {
 
-
     @Getter
     private static SightWorld instance;
 
     @Getter
     private static GamerManager gamerManager;
 
+    @Getter
+    private static ProtocolManager protocolManager;
 
+    @Override
+    public void onLoad() {
+        protocolManager = ProtocolLibrary.getProtocolManager();
+    }
 
     @Override
     public void onEnable() {
         instance = this;
         gamerManager = new GamerManager(this);
-        registerListeners();
         registerGuiService();
-
-        MessageService messagingService = registerMessageService();
-    }
-
-    private void registerListeners() {
-        new GamerListener(this);
-
+        registerMessageService();
+        registerListeners();
     }
 
     @Override
     public void onDisable() {
-
+        getLogger().info("SightAPI [BUKKIT] has enabled! Version - 1.0.1");
     }
+
+    private void registerListeners() {
+        new GamerListener(this);
+    }
+
     private void registerGuiService() {
         GuiService guiService = new GuiServiceImpl();
         Gui.init(this, guiService);

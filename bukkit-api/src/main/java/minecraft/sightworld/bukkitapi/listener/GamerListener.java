@@ -1,6 +1,7 @@
 package minecraft.sightworld.bukkitapi.listener;
 
 
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -13,10 +14,13 @@ import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerJoinEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerLoadSectionEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerPreLoginEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerQuitEvent;
+import minecraft.sightworld.bukkitapi.packet.team.WrapperPlayServerScoreboardTeam;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
+import minecraft.sightworld.defaultlib.utils.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,6 +31,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissionAttachment;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -89,6 +94,32 @@ public final class GamerListener extends EventListener<SightWorld> {
     @EventHandler
     public void onLoadSection(final @NotNull AsyncGamerLoadSectionEvent e) {
         e.setSections(loadedSections); //инициализируем дополнительные секции которые должны быть загружены
+    }
+
+    private WrapperPlayServerScoreboardTeam getTeam(int i, BukkitGamer gamer) {
+        val team = new WrapperPlayServerScoreboardTeam();
+        val prefix = gamer.getPrefix();
+        val tag = " " + gamer.getTag();
+
+        team.setName("000" + gamer.getName());
+        team.setMode(i);
+        team.setPrefix(WrappedChatComponent.fromText(prefix != null ? StringUtils.fixLength(16, prefix) : ""));
+        team.setSuffix(WrappedChatComponent.fromText(StringUtils.fixLength(16, tag)));
+        team.setNameTagVisibility("ALWAYS");
+        team.setColor(prefix != null ? ChatColor.getByChar(prefix.replace(" ", "").charAt(1)) : ChatColor.WHITE);
+        team.setPackOptionData(1);
+        team.getPlayers().add(gamer.getName());
+
+        return team;
+    }
+
+    @EventHandler
+    public void onTeam(AsyncGamerJoinEvent e) {
+        val gamer = e.getGamer();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            getTeam(1, gamer).sendPacket(player);
+            getTeam(0, gamer).sendPacket(player);
+        });
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
