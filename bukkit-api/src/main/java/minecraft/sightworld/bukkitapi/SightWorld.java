@@ -4,6 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import lombok.Getter;
 import minecraft.sightworld.bukkitapi.commands.impl.ApiCommand;
+import minecraft.sightworld.bukkitapi.commands.impl.CrashClientCommand;
 import minecraft.sightworld.bukkitapi.configuration.BaseConfiguration;
 import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gui.*;
@@ -57,12 +58,13 @@ public class SightWorld extends JavaPlugin {
 
     private void setGameRule() {
         getServer().getWorlds().forEach(world -> {
-            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getConfig().getBoolean("announce-advancements"));
         });
     }
 
     private void registerCommands() {
         new ApiCommand(this);
+        new CrashClientCommand(this);
     }
 
     private void registerListeners() {

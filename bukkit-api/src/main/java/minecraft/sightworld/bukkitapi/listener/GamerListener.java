@@ -26,6 +26,8 @@ import minecraft.sightworld.defaultlib.gamer.section.Section;
 import minecraft.sightworld.defaultlib.utils.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -118,38 +121,6 @@ public final class GamerListener extends EventListener<SightWorld> {
         return team;
     }
 
-    private void sendScoreboard(BukkitGamer gamer) {
-
-        BaseScoreboardBuilder scoreboardBuilder = ScoreboardAPI.newScoreboardBuilder();
-        scoreboardBuilder.scoreboardScope(BaseScoreboardScope.PROTOTYPE);
-        ScoreboardDisplayFlickAnimation displayFlickAnimation = new ScoreboardDisplayFlickAnimation();
-
-        displayFlickAnimation.addColor(ChatColor.RED);
-        displayFlickAnimation.addColor(ChatColor.GOLD);
-        displayFlickAnimation.addColor(ChatColor.DARK_RED);
-        displayFlickAnimation.addColor(ChatColor.BLUE);
-
-        displayFlickAnimation.addTextToAnimation("§lDWYUR PIDORAS");
-
-        ScoreboardDisplayCustomAnimation animation = new ScoreboardDisplayCustomAnimation();
-
-
-        scoreboardBuilder.scoreboardDisplay(displayFlickAnimation);
-
-        scoreboardBuilder.scoreboardLine(4, "§fНик: §c...");
-        scoreboardBuilder.scoreboardLine(3, "§fГруппа: §c...");
-        scoreboardBuilder.scoreboardLine(2, "");
-        scoreboardBuilder.scoreboardLine(1, "§evikypat.lastcraft.net");
-
-        scoreboardBuilder.scoreboardUpdater((baseScoreboard, player1) -> {
-
-            baseScoreboard.updateScoreboardLine(4, player1, "§fНик: §7" + player1.getName());
-            baseScoreboard.updateScoreboardLine(3, player1, "§fГруппа: §7" + gamer.getPrefix());
-        }, 20);
-
-        scoreboardBuilder.build().setScoreboardToPlayer(gamer.getPlayer());
-    }
-
     @EventHandler
     public void onGamerJoin(AsyncGamerJoinEvent e) {
         val gamer = e.getGamer();
@@ -158,8 +129,6 @@ public final class GamerListener extends EventListener<SightWorld> {
             getTeam(1, gamer).sendPacket(player);
             getTeam(0, gamer).sendPacket(player);
         });
-
-        sendScoreboard(gamer);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

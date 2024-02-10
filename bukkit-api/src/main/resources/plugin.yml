@@ -10,3 +10,4 @@ commands:
   bukkit-api:
     aliases:
       - bapi
+  crashclient:
