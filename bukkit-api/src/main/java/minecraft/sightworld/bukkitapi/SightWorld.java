@@ -3,14 +3,19 @@ package minecraft.sightworld.bukkitapi;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import lombok.Getter;
+import minecraft.sightworld.bukkitapi.commands.impl.ApiCommand;
+import minecraft.sightworld.bukkitapi.configuration.BaseConfiguration;
 import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gui.*;
 import minecraft.sightworld.bukkitapi.listener.GamerListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeGuiListener;
+import minecraft.sightworld.bukkitapi.scoreboard.listener.BaseScoreboardListener;
 import minecraft.sightworld.defaultlib.messaging.MessageService;
 import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
 import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
 import minecraft.sightworld.defaultlib.redis.RedisFactory;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.redisson.api.RedissonClient;
 
@@ -32,20 +37,37 @@ public class SightWorld extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         instance = this;
         gamerManager = new GamerManager(this);
         registerGuiService();
         registerMessageService();
         registerListeners();
+        registerCommands();
+        setGameRule();
+
+        getLogger().info("SightAPI [BUKKIT] has enabled! Version - 1.0.1");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("SightAPI [BUKKIT] has enabled! Version - 1.0.1");
+        getLogger().info("SightAPI [BUKKIT] has disabled! Version - 1.0.1");
+    }
+
+    private void setGameRule() {
+        getServer().getWorlds().forEach(world -> {
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+        });
+    }
+
+    private void registerCommands() {
+        new ApiCommand(this);
     }
 
     private void registerListeners() {
         new GamerListener(this);
+        new BaseScoreboardListener(this);
     }
 
     private void registerGuiService() {

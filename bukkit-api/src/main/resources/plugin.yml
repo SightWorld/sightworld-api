@@ -7,4 +7,6 @@ load: STARTUP
 depend:
   - ProtocolLib
 commands:
-  pidoras:
+  bukkit-api:
+    aliases:
+      - bapi

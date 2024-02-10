@@ -16,6 +16,11 @@ import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerPreLoginEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerQuitEvent;
 import minecraft.sightworld.bukkitapi.packet.team.WrapperPlayServerScoreboardTeam;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
+import minecraft.sightworld.bukkitapi.scoreboard.BaseScoreboardBuilder;
+import minecraft.sightworld.bukkitapi.scoreboard.BaseScoreboardScope;
+import minecraft.sightworld.bukkitapi.scoreboard.ScoreboardAPI;
+import minecraft.sightworld.bukkitapi.scoreboard.animation.ScoreboardDisplayCustomAnimation;
+import minecraft.sightworld.bukkitapi.scoreboard.animation.ScoreboardDisplayFlickAnimation;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
 import minecraft.sightworld.defaultlib.utils.StringUtils;
@@ -113,13 +118,48 @@ public final class GamerListener extends EventListener<SightWorld> {
         return team;
     }
 
+    private void sendScoreboard(BukkitGamer gamer) {
+
+        BaseScoreboardBuilder scoreboardBuilder = ScoreboardAPI.newScoreboardBuilder();
+        scoreboardBuilder.scoreboardScope(BaseScoreboardScope.PROTOTYPE);
+        ScoreboardDisplayFlickAnimation displayFlickAnimation = new ScoreboardDisplayFlickAnimation();
+
+        displayFlickAnimation.addColor(ChatColor.RED);
+        displayFlickAnimation.addColor(ChatColor.GOLD);
+        displayFlickAnimation.addColor(ChatColor.DARK_RED);
+        displayFlickAnimation.addColor(ChatColor.BLUE);
+
+        displayFlickAnimation.addTextToAnimation("§lDWYUR PIDORAS");
+
+        ScoreboardDisplayCustomAnimation animation = new ScoreboardDisplayCustomAnimation();
+
+
+        scoreboardBuilder.scoreboardDisplay(displayFlickAnimation);
+
+        scoreboardBuilder.scoreboardLine(4, "§fНик: §c...");
+        scoreboardBuilder.scoreboardLine(3, "§fГруппа: §c...");
+        scoreboardBuilder.scoreboardLine(2, "");
+        scoreboardBuilder.scoreboardLine(1, "§evikypat.lastcraft.net");
+
+        scoreboardBuilder.scoreboardUpdater((baseScoreboard, player1) -> {
+
+            baseScoreboard.updateScoreboardLine(4, player1, "§fНик: §7" + player1.getName());
+            baseScoreboard.updateScoreboardLine(3, player1, "§fГруппа: §7" + gamer.getPrefix());
+        }, 20);
+
+        scoreboardBuilder.build().setScoreboardToPlayer(gamer.getPlayer());
+    }
+
     @EventHandler
-    public void onTeam(AsyncGamerJoinEvent e) {
+    public void onGamerJoin(AsyncGamerJoinEvent e) {
         val gamer = e.getGamer();
+
         Bukkit.getOnlinePlayers().forEach(player -> {
             getTeam(1, gamer).sendPacket(player);
             getTeam(0, gamer).sendPacket(player);
         });
+
+        sendScoreboard(gamer);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

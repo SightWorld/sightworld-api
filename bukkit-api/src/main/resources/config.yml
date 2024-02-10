@@ -1,0 +1,6 @@
+# Made by Dwyur for SightWorld
+
+chat-format: true # работает ли дефолтное форматирование чата
+local-chat: false # работает ли разделение на локал и глобал чат (НЕ РАБОТАЕТ ЕСЛИ CHAT-FORMAT: FALSE)
+
+announce-advancements: false # отображать ли сообщения о достижениях
