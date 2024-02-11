@@ -1,0 +1,12 @@
+# Made by Dwyur for SightWorld
+
+motd:
+  - '§5§lSIGHT§f§lWORLD §8∭§r §fЭТО §l§dПРОСТО §fТЕСТ! '
+  - '§d§l↪§r §f§lГЛОБАЛЬНОЕ §d§lОБНОВЛЕНИЕ §fИ §d§lНОВЫЙ РЕЖИМ!'
+motd_hex:
+  - '<gradient:#FF3399:#FFFFFF> §lSIGHTWORLD §8∭§r §fЭТО §l§dПРОСТО §fТЕСТ! '
+  - '§d§l↪§r <gradient:#2880D8:#AC73CF:#EE68A4>§lГЛОБАЛЬНОЕ ОБНОВЛЕНИЕ И НОВЫЙ РЕЖИМ!'
+
+# фейк макс онлайн, типа +1 к текущему онлайну, например 14/15
+justOneMore: true
+

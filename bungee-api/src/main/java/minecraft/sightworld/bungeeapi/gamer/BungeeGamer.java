@@ -7,6 +7,7 @@ import minecraft.sightworld.bungeeapi.gamer.impl.BungeeGamerImpl;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
 import minecraft.sightworld.defaultlib.gamer.GamerBase;
 import minecraft.sightworld.defaultlib.gamer.OnlineGamer;
+import minecraft.sightworld.defaultlib.sound.SSound;
 import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
@@ -79,9 +80,7 @@ public interface BungeeGamer extends OnlineGamer {
     long getLastOnline();
     InetAddress getIp();
 
-
-    ProtocolizePlayer getProtocolPlayer();
-    void openInventory(Inventory inventory);
+    void playSound(SSound sound);
 
 
 

@@ -3,6 +3,8 @@ package minecraft.sightworld.bungeeapi.gui.test;
 import minecraft.sightworld.bungeeapi.command.SightCommand;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
+import minecraft.sightworld.defaultlib.sound.SSound;
+import minecraft.sightworld.defaultlib.sound.SSoundType;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.score.Scoreboard;
 import net.md_5.bungee.api.score.Team;
@@ -17,13 +19,10 @@ public class TestCommand extends SightCommand {
     @Override
     public void execute(BungeeEntity entity, String[] args) {
         BungeeGamer gamer = (BungeeGamer) entity;
-        new TestGui(gamer.getPlayer());
-        Scoreboard scoreboard = new Scoreboard();
 
-        Team team = new Team("000" + gamer.getName());
-        team.setDisplayName(gamer.getDisplayName());
-        team.addPlayer(gamer.getName());
-        scoreboard.addTeam(team);
+        // я конченый, бегите
+        SSound sound = new SSound(SSoundType.AMBIENT_CAVE, gamer.getName());
+        gamer.playSound(sound);
 
     }
 

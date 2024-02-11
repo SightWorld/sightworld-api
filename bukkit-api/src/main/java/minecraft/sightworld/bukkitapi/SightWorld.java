@@ -10,12 +10,14 @@ import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gui.*;
 import minecraft.sightworld.bukkitapi.listener.GamerListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeGuiListener;
+import minecraft.sightworld.bukkitapi.listener.message.BungeeSoundListener;
 import minecraft.sightworld.bukkitapi.scoreboard.listener.BaseScoreboardListener;
 import minecraft.sightworld.defaultlib.messaging.MessageService;
 import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
 import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
 import minecraft.sightworld.defaultlib.redis.RedisFactory;
 import org.bukkit.GameRule;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.redisson.api.RedissonClient;
@@ -85,6 +87,7 @@ public class SightWorld extends JavaPlugin {
 
         MessageServiceImpl messagingService = new MessageServiceImpl(redissonClient);
         messagingService.addListener(new BungeeGuiListener(messagingService), "gui");
+        messagingService.addListener(new BungeeSoundListener(), "sound");
 
         return messagingService;
 

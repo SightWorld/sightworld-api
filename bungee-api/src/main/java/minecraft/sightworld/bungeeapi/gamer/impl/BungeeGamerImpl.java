@@ -7,10 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
+import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
 import minecraft.sightworld.bungeeapi.manager.LuckPermsManager;
 import minecraft.sightworld.defaultlib.gamer.GamerBase;
+import minecraft.sightworld.defaultlib.sound.SSound;
 import minecraft.sightworld.defaultlib.sql.GamerLoader;
 import minecraft.sightworld.defaultlib.sql.api.Database;
 import minecraft.sightworld.defaultlib.sql.api.table.ColumnType;
@@ -177,13 +179,10 @@ public class BungeeGamerImpl extends GamerBase implements BungeeEntity, BungeeGa
         return inetAddress;
     }
 
-
-
     @Override
-    public void openInventory(Inventory inventory) {
-        getProtocolPlayer().openInventory(inventory);
+    public void playSound(SSound sound) {
+        SightWorld.getMessagingService().sendMessage(sound, "sound");
     }
-
 
     @Override
     public boolean isHuman() {
@@ -196,10 +195,6 @@ public class BungeeGamerImpl extends GamerBase implements BungeeEntity, BungeeGa
     }
 
 
-    @Override
-    public ProtocolizePlayer getProtocolPlayer() {
-        return Protocolize.playerProvider().player(getPlayer().getUniqueId());
-    }
     @Override
     public void disconnect(final @NotNull String reason) {
         getPlayer().disconnect(new TextComponent(reason));
