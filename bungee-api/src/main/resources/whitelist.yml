@@ -1,0 +1,19 @@
+whitelist:
+  ENABLE: false
+  KICK-MESSAGE:
+    - "§d§lSightWorld"
+    - " "
+    - "§cНа сервере проходят технические"
+    - "§cработы! Пожалуйста, попробуйте позже"
+  HOVER:
+    - '    §8§l⎰  §d§lSIGHT§f§lCLOUD§r  §8§l⎱'
+    - ' '
+    - '§c⚠ На сервере ведутся тех. работы ⚠'
+    - '§cСледите за новостями в нашей группе VK'
+    - ' '
+    - '    §8§l⎱  §d§lSIGHT§f§lWORLD§r  §8§l⎰'
+  MOTD:
+    - '§d§lSIGHT§f§lWORLD §8∭§r §fЭТО ПРОСТО &dТЕСТ&f!'
+    - '§c&l⚠ СЕРВЕР НА ТЕХНИЧЕСКИХ РАБОТАХ! ⚠'
+  PLAYERS:
+    - Dwyur
