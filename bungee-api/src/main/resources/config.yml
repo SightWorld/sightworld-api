@@ -7,6 +7,21 @@ motd_hex:
   - '<gradient:#FF3399:#FFFFFF> §lSIGHTWORLD §8∭§r §fЭТО §l§dПРОСТО §fТЕСТ! '
   - '§d§l↪§r <gradient:#2880D8:#AC73CF:#EE68A4>§lГЛОБАЛЬНОЕ ОБНОВЛЕНИЕ И НОВЫЙ РЕЖИМ!'
 
+booster:
+  enable: true
+  boost: 1.7
+
 # фейк макс онлайн, типа +1 к текущему онлайну, например 14/15
 justOneMore: true
+
+tab:
+  header: # Доступные плейсхолдеры: %server%, %global_online% (напишите @dwyur для добавления)
+    - "§d§lSightWorld"
+    - " "
+    - "Вы находитесь на сервере: §7%server%"
+    - "Наш сайт: §dwww.sightworld.ru"
+    - " "
+  footer:
+    - " "
+    - "Онлайн проекта: §d%global_online%"
 
