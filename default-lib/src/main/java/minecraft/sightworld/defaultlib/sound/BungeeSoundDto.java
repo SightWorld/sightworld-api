@@ -4,13 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+@RequiredArgsConstructor
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class SSound {
+public class BungeeSoundDto {
 
-    private final SSoundType soundType;
-
-    private int volume = 10;
-    private int pitch = 1;
+    private final SSound sound;
+    private final String name;
 }

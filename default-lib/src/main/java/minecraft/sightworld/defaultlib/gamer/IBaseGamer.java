@@ -6,9 +6,10 @@ import minecraft.sightworld.defaultlib.gamer.friends.Friend;
 import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
 
+import java.util.List;
 import java.util.Map;
 
-public interface IBaseGamer {
+public interface  IBaseGamer {
 
     int getPlayerID();
 
@@ -46,7 +47,9 @@ public interface IBaseGamer {
 
 
     void setDefaultJoinMessage(JoinMessage message);
+    void addJoinMessage(JoinMessage message);
     JoinMessage getJoinMessage();
+    List<JoinMessage> getJoinMessages();
 
     void setDiscordID(int value);
     int getDiscordID();

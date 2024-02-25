@@ -30,5 +30,5 @@ public interface BukkitGamer extends BukkitEntity, OnlineGamer, IBaseGamer {
 
     void sendMessage(BaseComponent... baseComponents);
 
-
+    int getVersion();
 }

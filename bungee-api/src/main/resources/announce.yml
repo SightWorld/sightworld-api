@@ -10,7 +10,7 @@ announcer:
     click:
       hover: "ебал мать" # при наведении
       action: OPEN_URL
-      context: 'https://github.com/novitpw'
+      context: 'https://github.com/dwyur'
 
   ANNOUNCER_COOL_MESSAGE: # Это если не нужен акшион. Ховер в таком случае не нужен, он не отобразится
     messages:
@@ -34,4 +34,13 @@ announcer:
     click:
       hover: "копу то клипбоард"
       action: COPY_TO_CLIPBOARD
-      context: 'https://github.com/novitpw'
+      context: 'https://github.com/dwyur'
+
+donate-announcer:
+  messages: # %display_name% - тот, кто купил. %donate% - какой он купил донат
+    - "Мааааааааааааааать "
+    - "ебааааааааааЛ"
+  click:
+    hover: "ебал мать"
+    action: OPEN_URL
+    context: "https://www.sightworld.ru"

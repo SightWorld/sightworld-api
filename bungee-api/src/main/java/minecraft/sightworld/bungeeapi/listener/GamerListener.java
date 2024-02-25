@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
+import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntityManager;
 import minecraft.sightworld.bungeeapi.gamer.impl.BungeeGamerImpl;
 import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerLoginEvent;
 import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerQuitEvent;
@@ -22,6 +23,7 @@ import net.md_5.bungee.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
+
 
 import static net.md_5.bungee.event.EventPriority.LOW;
 import static net.md_5.bungee.event.EventPriority.LOWEST;
@@ -80,6 +82,35 @@ public class GamerListener extends EventListener<SightWorld> {
             ));
         }
 
+
+        if (checkWl(event)) {
+            event.registerIntent(plugin);
+            BungeeScheduler.submitAsync(() -> {
+//                Callback<DPreLoginEvent> callback = (result, throwable) -> {
+//                    // nothing :(
+//                };
+
+            //    BungeeUtil.callEventAsync(new DPreLoginEvent(name, connection, callback));
+                event.completeIntent(plugin);
+            });
+        }
+    }
+
+    private boolean checkWl(final @NotNull PreLoginEvent e) {
+        val connection = e.getConnection();
+        val name = connection.getName();
+
+        if (plugin.getWhitelistManager().isEnable()
+                && !plugin.getWhitelistManager().getPlayerNames().contains(name.toLowerCase())) {
+            e.setCancelReason(new TextComponent(plugin.getWhitelistManager().getKickMessage()));
+            e.setCancelled(true);
+
+            BungeeEntityManager.getBungee().sendMessage("§fИгрок §b" + name +
+                    "§f попытался зайти, но был исключен т.к включены тех. работы");
+            return false;
+        }
+
+        return true;
     }
 
     // Инициализация игрока в API

@@ -3,6 +3,7 @@ package minecraft.sightworld.bungeeapi.gui.test;
 import minecraft.sightworld.bungeeapi.command.SightCommand;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
+import minecraft.sightworld.bungeeapi.util.HexUtil;
 import minecraft.sightworld.defaultlib.sound.SSound;
 import minecraft.sightworld.defaultlib.sound.SSoundType;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -21,7 +22,7 @@ public class TestCommand extends SightCommand {
         BungeeGamer gamer = (BungeeGamer) entity;
 
         // я конченый, бегите
-        SSound sound = new SSound(SSoundType.AMBIENT_CAVE, gamer.getName());
+        SSound sound = new SSound(SSoundType.AMBIENT_CAVE);
         gamer.playSound(sound);
 
     }

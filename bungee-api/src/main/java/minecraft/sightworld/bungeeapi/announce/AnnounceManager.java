@@ -21,6 +21,9 @@ import net.md_5.bungee.config.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
@@ -101,7 +104,7 @@ public class AnnounceManager {
             if (listMessages.isEmpty() || player.getServer().getInfo().getName().startsWith("auth"))
                 return;
 
-            val gamer = BungeeGamer.getGamer(player);
+            //val gamer = BungeeGamer.getGamer(player);
 
 
             val componentBuilder = new ComponentBuilder(
@@ -121,17 +124,25 @@ public class AnnounceManager {
         }
     }
 
-    private Configuration loadConfig() {
-        val config = new File(SightWorld.getInstance().getDataFolder(), "announce.yml");
-        Configuration cfg = null;
+    Configuration loadConfig() {
+        val configFile = new File(SightWorld.getInstance().getDataFolder(), "announce.yml");
+        Configuration configuration = null;
+
         try {
-            if (!config.exists()) {
-                Files.copy(SightWorld.getInstance().getResourceAsStream("announce.yml"), config.toPath());
+            if (!configFile.exists()) {
+                FileOutputStream outputStream = new FileOutputStream(configFile);
+                InputStream in = SightWorld.getInstance().getResourceAsStream("announce.yml");
+                in.transferTo(outputStream);
+                configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+            } else {
+                // Если файл уже существует, загружаем существующую конфигурацию
+                configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
             }
-            cfg = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return cfg;
+
+        return configuration;
     }
+
 }

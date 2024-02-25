@@ -14,7 +14,7 @@ import minecraft.sightworld.defaultlib.sql.api.table.TableConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoinMessageSection extends Section { // TODO: Сделать свои собственные группы и заменить блять олмесейдж и издефолт
+public class JoinMessageSection extends Section {
 
     private JoinMessage joinMessage;
 
@@ -96,9 +96,9 @@ public class JoinMessageSection extends Section { // TODO: Сделать сво
                             .where("message", QuerySymbol.EQUALLY, joinMessage.getId()).limit());
                 } else {
                     GamerLoader.getMysqlDatabase().execute(MysqlQuery.insertTo("join_messages")
-                            .set("available", 1)
                             .set("id", playerId)
-                            .set("message", joinMessage.getId()));
+                            .set("message", joinMessage.getId())
+                            .set("available", 1));
                 }
 
                 return Void.TYPE;

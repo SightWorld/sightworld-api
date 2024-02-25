@@ -1,0 +1,36 @@
+package minecraft.sightworld.bukkitapi.packet.team;
+
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import lombok.*;
+import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
+import minecraft.sightworld.bukkitapi.manager.LuckPermsManager;
+import minecraft.sightworld.defaultlib.utils.StringUtils;
+import org.bukkit.ChatColor;
+
+import java.util.*;
+
+public class TeamManager { // гавнокод но мне пахую я панк
+
+    @Getter
+    private static final List<WrapperPlayServerScoreboardTeam> teams = new ArrayList<>();
+
+    public static WrapperPlayServerScoreboardTeam getTeam(int mode, BukkitGamer gamer) {
+        String prefix = gamer.getPrefix();
+        String name = gamer.getName();
+        String tag = gamer.getTag();
+
+        WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
+        team.setName(LuckPermsManager.getTabPriority(name) + name);
+        team.setMode(mode);
+
+        team.setPrefix(WrappedChatComponent.fromText(prefix != null ? StringUtils.fixLength(16, prefix) : ""));
+        team.setSuffix(WrappedChatComponent.fromText(tag != null ? StringUtils.fixLength(16, " " + tag) : ""));
+
+        team.setNameTagVisibility("ALWAYS");
+        team.setColor(prefix != null ? ChatColor.getByChar(prefix.replace(" ", "").charAt(1)) : ChatColor.WHITE);
+        team.setPackOptionData(1);
+        team.getPlayers().add(gamer.getName());
+
+        return team;
+    }
+}

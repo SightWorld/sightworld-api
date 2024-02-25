@@ -9,9 +9,9 @@ import minecraft.sightworld.defaultlib.gamer.constants.JoinMessage;
 import minecraft.sightworld.defaultlib.gamer.friends.Friend;
 import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.*;
-import minecraft.sightworld.defaultlib.manager.VanishManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,6 +89,16 @@ public abstract class IBaseGamerImpl implements IBaseGamer {
     @Override
     public JoinMessage getJoinMessage() {
         return getSection(JoinMessageSection.class).getJoinMessage();
+    }
+
+    @Override
+    public List<JoinMessage> getJoinMessages() {
+        return getSection(JoinMessageSection.class).getAvailableJoinMessage();
+    }
+
+    @Override
+    public void addJoinMessage(JoinMessage message) {
+        getSection(JoinMessageSection.class).addJoinMessage(message, true);
     }
 
     @Override

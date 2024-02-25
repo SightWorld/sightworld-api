@@ -1,7 +1,6 @@
 package minecraft.sightworld.bukkitapi.listener;
 
 
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -14,20 +13,11 @@ import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerJoinEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerLoadSectionEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerPreLoginEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerQuitEvent;
-import minecraft.sightworld.bukkitapi.packet.team.WrapperPlayServerScoreboardTeam;
+import minecraft.sightworld.bukkitapi.packet.team.TeamManager;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
-import minecraft.sightworld.bukkitapi.scoreboard.BaseScoreboardBuilder;
-import minecraft.sightworld.bukkitapi.scoreboard.BaseScoreboardScope;
-import minecraft.sightworld.bukkitapi.scoreboard.ScoreboardAPI;
-import minecraft.sightworld.bukkitapi.scoreboard.animation.ScoreboardDisplayCustomAnimation;
-import minecraft.sightworld.bukkitapi.scoreboard.animation.ScoreboardDisplayFlickAnimation;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
-import minecraft.sightworld.defaultlib.utils.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,10 +28,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissionAttachment;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static minecraft.sightworld.bukkitapi.packet.team.TeamManager.getTeam;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class GamerListener extends EventListener<SightWorld> {
@@ -101,34 +91,25 @@ public final class GamerListener extends EventListener<SightWorld> {
 
     @EventHandler
     public void onLoadSection(final @NotNull AsyncGamerLoadSectionEvent e) {
-        e.setSections(loadedSections); //инициализируем дополнительные секции которые должны быть загружены
-    }
-
-    private WrapperPlayServerScoreboardTeam getTeam(int i, BukkitGamer gamer) {
-        val team = new WrapperPlayServerScoreboardTeam();
-        val prefix = gamer.getPrefix();
-        val tag = " " + gamer.getTag();
-
-        team.setName("000" + gamer.getName());
-        team.setMode(i);
-        team.setPrefix(WrappedChatComponent.fromText(prefix != null ? StringUtils.fixLength(16, prefix) : ""));
-        team.setSuffix(WrappedChatComponent.fromText(StringUtils.fixLength(16, tag)));
-        team.setNameTagVisibility("ALWAYS");
-        team.setColor(prefix != null ? ChatColor.getByChar(prefix.replace(" ", "").charAt(1)) : ChatColor.WHITE);
-        team.setPackOptionData(1);
-        team.getPlayers().add(gamer.getName());
-
-        return team;
+        e.getSections().addAll(loadedSections); //инициализируем дополнительные секции которые должны быть загружены
     }
 
     @EventHandler
-    public void onGamerJoin(AsyncGamerJoinEvent e) {
-        val gamer = e.getGamer();
+    public void onGamerJoin(PlayerJoinEvent e) {
+        val gamer = BukkitGamer.getGamer(e.getPlayer());
+        val team = getTeam(0, gamer);
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            getTeam(1, gamer).sendPacket(player);
-            getTeam(0, gamer).sendPacket(player);
+        Bukkit.getOnlinePlayers().forEach(target -> {
+            getTeam(1, gamer).sendPacket(target);
+            team.sendPacket(target);
         });
+
+        TeamManager.getTeams().add(team);
+
+        TeamManager.getTeams().forEach(teams -> {
+            teams.sendPacket(e.getPlayer());
+        });
+
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

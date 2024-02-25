@@ -1,5 +1,6 @@
 package minecraft.sightworld.bukkitapi.gamer.impl;
 
+import com.viaversion.viaversion.api.Via;
 import lombok.Getter;
 import lombok.Setter;
 import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
@@ -79,6 +80,11 @@ public class BukkitGamerImpl extends GamerBase implements BukkitGamer {
         }
 
         player.spigot().sendMessage(baseComponents);
+    }
+
+    @Override
+    public int getVersion() {
+        return Via.getAPI().getPlayerVersion(getPlayer().getUniqueId());
     }
 
     @Override
