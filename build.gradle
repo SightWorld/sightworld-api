@@ -16,6 +16,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 publishing {
+    print("Actor: " + System.getenv("GITHUB_ACTOR"))
     print("Токен: " + System.getenv("GITHUB_TOKEN"))
     repositories {
         maven {
