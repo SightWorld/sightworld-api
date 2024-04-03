@@ -16,28 +16,36 @@ dependencies {
 }
 
 subprojects {
-    print("Subproject: " + getSubprojects().stream().map {proj -> proj.getName()}.collect())
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+
+    group = 'minecraft.sightworld'
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/sightworld/sightworld-api")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
     publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/sightworld/sightworld-api")
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
-                }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
             }
         }
     }
 }
 
-publishing {
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+project(':default-lib')
+
+project(':bukkit-api')
+
+project(':bungee-api')
 
 test {
     useJUnitPlatform()
