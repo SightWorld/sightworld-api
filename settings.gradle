@@ -1,4 +1,4 @@
-rootProject.name = 'SightAPI'
+rootProject.name = 'sight-api'
 include 'bungee-api'
 include 'default-lib'
 include 'bukkit-api'
