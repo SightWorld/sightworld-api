@@ -15,12 +15,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
-
-    group = 'minecraft.sightworld'
-
+publishing {
     repositories {
         maven {
             name = "GitHubPackages"
@@ -31,20 +26,15 @@ subprojects {
             }
         }
     }
-
-    publishing {
-        publications {
-            gpr(MavenPublication) {
-                from(components.java)
-            }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }
 
 project(':default-lib')
-
 project(':bukkit-api')
-
 project(':bungee-api')
 
 test {
