@@ -5,7 +5,6 @@ import com.comphenix.protocol.ProtocolManager;
 import lombok.Getter;
 import minecraft.sightworld.bukkitapi.commands.impl.ApiCommand;
 import minecraft.sightworld.bukkitapi.commands.impl.CrashClientCommand;
-import minecraft.sightworld.bukkitapi.entity.impl.FakePlayer;
 import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gui.*;
 import minecraft.sightworld.bukkitapi.listener.GamerListener;
