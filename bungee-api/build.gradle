@@ -47,7 +47,7 @@ java {
 }
 
 
-archivesBaseName = 'sight-api-bungeecord'
+archivesBaseName = 'bungee-api'
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
