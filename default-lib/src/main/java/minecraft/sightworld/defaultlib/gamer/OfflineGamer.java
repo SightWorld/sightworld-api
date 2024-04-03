@@ -10,6 +10,7 @@ import minecraft.sightworld.defaultlib.sql.GamerLoader;
 import java.net.InetAddress;
 import java.util.Set;
 
+@Getter
 public class OfflineGamer extends IBaseGamerImpl {
     private static final ImmutableSet<Class<? extends Section>> LOADED_SECTIONS = ImmutableSet.of(
             MoneySection.class
@@ -22,11 +23,11 @@ public class OfflineGamer extends IBaseGamerImpl {
         loadData();
     }
 
-    @Getter private InetAddress lastIp;
+    private InetAddress lastIp;
 
-    @Getter private String lastServer;
+    private String lastServer;
 
-    @Getter private long lastOnline;
+    private long lastOnline;
 
     private void loadData() {
         GamerLoader.getMysqlDatabase().executeQuery("SELECT * FROM `join_info` WHERE `id` = ? LIMIT 1;", (rs) -> {
@@ -70,5 +71,9 @@ public class OfflineGamer extends IBaseGamerImpl {
     @Override
     public String toString() {
         return "OfflineGamer{name=" + this.getName() + '}';
+    }
+
+    public String getChatName() {
+        return getPrefix() + getName();
     }
 }

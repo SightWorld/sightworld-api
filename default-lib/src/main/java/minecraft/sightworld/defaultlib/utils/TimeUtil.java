@@ -1,9 +1,12 @@
 package minecraft.sightworld.defaultlib.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.concurrent.TimeUnit;
 
+@UtilityClass
 public class TimeUtil {
-    public static String formatTimeElapsed(long startTimeMillis) {
+    public String formatTimeElapsed(long startTimeMillis) {
         long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 
         long days = TimeUnit.MILLISECONDS.toDays(elapsedTimeMillis);
@@ -28,7 +31,7 @@ public class TimeUtil {
         return result;
     }
 
-    private static String getNounForm(long number, String form1, String form2, String form5) {
+    private String getNounForm(long number, String form1, String form2, String form5) {
         number = Math.abs(number) % 100;
         long remainder = number % 10;
         if (number > 10 && number < 20) {

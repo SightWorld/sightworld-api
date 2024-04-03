@@ -54,7 +54,6 @@ public final class SightWorld extends Plugin {
     @Getter
     private static BungeeGuiService bungeeGuiService;
 
-
     @Override
     public void onEnable() {
         instance = this;
@@ -72,7 +71,6 @@ public final class SightWorld extends Plugin {
     private void registerListeners() {
         new GamerListener(this);
         new PingListener(this);
-        LuckPermsManager.registerEvents(this);
     }
 
     private void registerCommands() {
@@ -101,7 +99,7 @@ public final class SightWorld extends Plugin {
 
     }
 
-    Configuration loadConfig() {
+    private Configuration loadConfig() {
         val configFile = new File(SightWorld.getInstance().getDataFolder(), "config.yml");
         Configuration configuration = null;
 

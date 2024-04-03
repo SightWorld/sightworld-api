@@ -3,6 +3,7 @@ package minecraft.sightworld.defaultlib.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.experimental.UtilityClass;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,9 +14,10 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+@UtilityClass
 public class AddressUtil {
 
-    public static String getLocationFromIP(InetAddress ip) {
+    public String getLocationFromIP(InetAddress ip) {
         try {
             String ipAddress = ip.getHostAddress();
             URL url = new URL("https://ipinfo.io/" + ipAddress + "/json");

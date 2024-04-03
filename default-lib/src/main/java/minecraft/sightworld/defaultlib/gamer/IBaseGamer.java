@@ -5,6 +5,8 @@ import minecraft.sightworld.defaultlib.gamer.constants.JoinMessage;
 import minecraft.sightworld.defaultlib.gamer.friends.Friend;
 import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
+import minecraft.sightworld.defaultlib.group.Group;
+import minecraft.sightworld.defaultlib.group.GroupModel;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,9 @@ public interface  IBaseGamer {
 
     String getPrefix();
     void setPrefix(String prefix, boolean saved);
+
+    Group getGroup();
+    void setGroup(Group group);
 
     String getTag();
     void setTag(String tag, boolean saved);
