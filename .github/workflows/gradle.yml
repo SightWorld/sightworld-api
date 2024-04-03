@@ -40,7 +40,7 @@ jobs:
       run: ./gradlew publish
       env:
         GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
-        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        GITHUB_ACTOR: ${{ secrets.JAVA_ACTOR }}
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
