@@ -16,6 +16,7 @@ dependencies {
 }
 
 subprojects {
+    print("Subproject: " + getSubprojects().stream().map {proj -> proj.getName()}.collect())
     publishing {
         repositories {
             maven {
