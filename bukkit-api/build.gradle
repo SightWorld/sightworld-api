@@ -57,6 +57,6 @@ java {
 }
 
 
-archivesBaseName = 'SightAPI-bukkit'
+archivesBaseName = 'sight-api-bukkit'
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
