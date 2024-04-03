@@ -63,7 +63,7 @@ public class AnnounceManager {
         }
 
         return announceMessages;
-    }
+}
 
     public void startAnnounceTask(int periodInMinutes) {
         val announceMessages = getAnnounceMessages();

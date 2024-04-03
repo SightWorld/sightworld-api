@@ -51,7 +51,9 @@ public class GamerAPI {
         }
     }
 
-
+    public OfflineGamer getOfflinePlayer(final int id) {
+        return getOfflinePlayer(GamerLoader.getName(id));
+    }
 
     public void removeOfflinePlayer(final String name) {
         OFFLINE_CACHE.invalidate(name.toLowerCase());
@@ -118,5 +120,12 @@ public class GamerAPI {
 
     public boolean contains(final String name) {
         return GAMERS.containsKey(name.toLowerCase());
+    }
+
+    public boolean existsGamer(final String name) {
+        OfflineGamer offlineGamer = getOfflinePlayer(name);
+        long lastOnline = offlineGamer.getLastOnline();
+
+        return lastOnline > 0;
     }
 }

@@ -2,7 +2,9 @@ package minecraft.sightworld.defaultlib.gamer.section;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import minecraft.sightworld.defaultlib.group.Group;
 import minecraft.sightworld.defaultlib.utils.Pair;
 import minecraft.sightworld.defaultlib.sql.GamerLoader;
 import minecraft.sightworld.defaultlib.gamer.IBaseGamer;
@@ -15,8 +17,14 @@ import minecraft.sightworld.defaultlib.sql.api.table.TableConstructor;
 public class BaseSection extends Section {
 
     int playerID = -1;
+
+    @Setter
     String prefix = "§7";
+
+    @Setter
     String tag = "";
+
+    Group group = Group.DEFAULT;
 
     public BaseSection(IBaseGamer baseGamer) {
         super(baseGamer);
@@ -45,21 +53,23 @@ public class BaseSection extends Section {
             if (prefixResult != null) {
                 prefix = prefixResult;
             }
+
+            Group groupResult = GamerLoader.getGroup(playerID);
+            if (groupResult != Group.DEFAULT) {
+                group = groupResult;
+            }
         }
         return playerID != -1;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setGroup(Group group) {
+        this.group = group;
+        GamerLoader.setGroup(baseGamer.getPlayerID(), group);
     }
 
     public void savePrefix(String prefix) {
         this.prefix = prefix;
         GamerLoader.setPrefix(baseGamer.getPlayerID(), prefix);
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
     }
 
     public void saveTag(String tag) {
@@ -79,6 +89,10 @@ public class BaseSection extends Section {
         new TableConstructor("tags",
                 new TableColumn("id", ColumnType.INT_11).primaryKey(true).unigue(true),
                 new TableColumn("tag", ColumnType.VARCHAR_32)
+        ).create(GamerLoader.getMysqlDatabase());
+        new TableConstructor("groups",
+                new TableColumn("id", ColumnType.INT_11).primaryKey(true).unigue(true),
+                new TableColumn("group_id", ColumnType.INT_11)
         ).create(GamerLoader.getMysqlDatabase());
     }
 }

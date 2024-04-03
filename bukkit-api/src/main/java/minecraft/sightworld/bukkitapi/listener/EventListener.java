@@ -9,11 +9,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class EventListener<T extends JavaPlugin> implements Listener {
 
-    protected static final GamerManager GAMER_MANAGER = SightWorld.getGamerManager();
+    public static final GamerManager GAMER_MANAGER = SightWorld.getGamerManager();
 
-    protected final T javaPlugin;
+    public final T javaPlugin;
 
-    protected EventListener(final T javaPlugin) {
+    public EventListener(final T javaPlugin) {
         this.javaPlugin = javaPlugin;
         Bukkit.getPluginManager().registerEvents(this, javaPlugin);
     }

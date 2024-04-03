@@ -3,6 +3,7 @@ package minecraft.sightworld.defaultlib.sql;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import lombok.experimental.UtilityClass;
+import minecraft.sightworld.defaultlib.group.Group;
 import minecraft.sightworld.defaultlib.sql.api.Database;
 import minecraft.sightworld.defaultlib.sql.api.StatementWrapper;
 import minecraft.sightworld.defaultlib.sql.api.query.MysqlQuery;
@@ -49,9 +50,22 @@ public class GamerLoader {
     private final String INS_RUBY = "INSERT INTO `rubies` (`id`, `ruby`);";
     private final String UPD_CHANGE_RUBY = "UPDATE `rubies` SET `ruby` = `ruby` + ? WHERE `id` = ?;";
     private final String UPD_RUBY = "UPDATE `rubies` SET `ruby` = ? WHERE `id` = ?;";
-    private final String GET_FRIENDS_ID_QUERY = "SELECT * FROM `friends` WHERE `id` = ?";
+    private final String GET_FRIENDS_ID_QUERY = "SELECT * FROM `friends` WHERE `id` = ?;";
+
+    private final String GET_GROUP_QUERY = "SELECT * FROM `groups` WHERE `id` = ?;";
+    private final String INS_GROUP = "INSERT INTO `groups` (`id`, `group_id`) VALUES (?, ?);";
+    private final String UPD_GROUP = "UPDATE `groups` SET `group_id` = ? WHERE `id` = ?;";
 
 
+    public Group getGroup(int playerID) {
+        return MYSQL_DATABASE.executeQuery(GET_GROUP_QUERY, rs -> {
+            if (rs.next()) {
+                return Group.getGroupById(rs.getInt("group_id"));
+            }
+
+            return Group.DEFAULT;
+        }, playerID);
+    }
 
     public IntList getFriends(int playerID) {
         IntArrayList friends = new IntArrayList();
@@ -205,6 +219,22 @@ public class GamerLoader {
                 MYSQL_DATABASE.execute(UPD_CHANGE_RUBY, value, playerID);
             } else {
                 MYSQL_DATABASE.execute(INS_RUBY, playerID, value);
+            }
+
+            return Void.TYPE;
+        }, playerID);
+    }
+
+    public void setGroup(int playerID, Group value) {
+        if (playerID == -1) {
+            return;
+        }
+
+        MYSQL_DATABASE.executeQuery(GET_GROUP_QUERY, (rs) -> {
+            if (rs.next()) {
+                MYSQL_DATABASE.execute(UPD_GROUP, value.getId(), playerID);
+            } else {
+                MYSQL_DATABASE.execute(INS_GROUP, playerID, value.getId());
             }
 
             return Void.TYPE;

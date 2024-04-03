@@ -1,5 +1,6 @@
 package minecraft.sightworld.defaultlib.gamer;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import minecraft.sightworld.defaultlib.gamer.constants.JoinMessage;
 import minecraft.sightworld.defaultlib.gamer.friends.Friend;
 import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.*;
+import minecraft.sightworld.defaultlib.group.Group;
 
 import java.util.HashMap;
 import java.util.List;
@@ -118,6 +120,16 @@ public abstract class IBaseGamerImpl implements IBaseGamer {
         } else {
             getSection(BaseSection.class).setPrefix(prefix);
         }
+    }
+
+    @Override
+    public Group getGroup() {
+        return getSection(BaseSection.class).getGroup();
+    }
+
+    @Override
+    public void setGroup(Group group) {
+        getSection(BaseSection.class).setGroup(group);
     }
 
     @Override

@@ -45,10 +45,13 @@ public final class WhitelistManager { // cringe
         return Joiner.on("\n").join(CONFIG.getStringList("whitelist.MOTD"));
     }
 
+<<<<<<< HEAD
     public @NotNull String getVersionName() {
         return CONFIG.getString("whitelist.VERSION-NAME");
     }
 
+=======
+>>>>>>> 39c6b3999c4aabdfd568a8cf4b40f4c67aef6829
     public @NotNull String getHoverText() {
         return Joiner.on("\n").join(CONFIG.getStringList("whitelist.HOVER"));
     }
