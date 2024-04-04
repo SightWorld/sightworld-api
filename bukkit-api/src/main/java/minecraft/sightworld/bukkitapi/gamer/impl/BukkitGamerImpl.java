@@ -3,11 +3,13 @@ package minecraft.sightworld.bukkitapi.gamer.impl;
 import com.viaversion.viaversion.api.Via;
 import lombok.Getter;
 import lombok.Setter;
+import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerLoadSectionEvent;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
 import minecraft.sightworld.defaultlib.gamer.GamerBase;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
+import minecraft.sightworld.defaultlib.localization.Language;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -90,6 +92,11 @@ public class BukkitGamerImpl extends GamerBase implements BukkitGamer {
     @Override
     public void sendMessage(String message) {
         player.sendMessage(message);
+    }
+
+    @Override
+    public void sendMessageLocale(String key, Object... args) {
+        player.sendMessage(SightWorld.getLocalizationService().get(Language.RUSSIAN, key, args));
     }
 
     @Override
