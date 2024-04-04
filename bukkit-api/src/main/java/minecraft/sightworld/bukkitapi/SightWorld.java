@@ -49,7 +49,6 @@ public class SightWorld extends JavaPlugin {
         registerListeners();
         registerCommands();
         setGameRule();
-
         getLogger().info("SightAPI [BUKKIT] has enabled! Version - 1.0.1");
     }
 

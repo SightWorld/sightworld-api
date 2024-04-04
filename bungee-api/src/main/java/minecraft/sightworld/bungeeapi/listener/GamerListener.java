@@ -1,7 +1,5 @@
 package minecraft.sightworld.bungeeapi.listener;
 
-import dev.simplix.protocolize.api.Protocolize;
-import dev.simplix.protocolize.api.player.ProtocolizePlayer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.val;

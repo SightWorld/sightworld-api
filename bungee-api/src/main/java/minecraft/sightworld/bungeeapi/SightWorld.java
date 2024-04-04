@@ -5,6 +5,7 @@ import lombok.val;
 import minecraft.sightworld.bungeeapi.announce.AnnounceManager;
 import minecraft.sightworld.bungeeapi.command.impl.BungeeApiCommand;
 import minecraft.sightworld.bungeeapi.command.impl.BungeeWhitelistCommand;
+import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gui.acceptor.AcceptorListener;
 import minecraft.sightworld.bungeeapi.gui.service.BungeeGuiService;
 import minecraft.sightworld.bungeeapi.gui.service.impl.BungeeGuiServiceImpl;
@@ -64,7 +65,6 @@ public final class SightWorld extends Plugin {
 
         bungeeGuiService = new BungeeGuiServiceImpl();
         messagingService = registerMessageService();
-
         loadTab();
     }
 
