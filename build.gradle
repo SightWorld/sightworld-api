@@ -14,31 +14,7 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
-def modules = ['default-lib', 'bukkit-api', 'bungee-api']
 
-// Настройки публикации для каждого модуля
-modules.each { moduleName ->
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-                groupId = "minecraft.sightworld"
-                artifactId = "$moduleName"
-                version = project.version
-            }
-        }
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/sightworld/sightworld-api")
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
-                }
-            }
-        }
-    }
-}
 
 project(':default-lib')
 project(':bukkit-api')
