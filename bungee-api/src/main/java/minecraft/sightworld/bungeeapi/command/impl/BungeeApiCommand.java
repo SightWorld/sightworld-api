@@ -8,7 +8,6 @@ import minecraft.sightworld.defaultlib.utils.TimeUtil;
 
 import java.lang.management.ManagementFactory;
 import java.util.List;
-import java.util.Locale;
 
 public class BungeeApiCommand extends BungeeCommand<SightWorld> {
     public BungeeApiCommand(SightWorld plugin) {
@@ -39,10 +38,11 @@ public class BungeeApiCommand extends BungeeCommand<SightWorld> {
             }
 
             case "reload" -> {
+                plugin.loadLocalization();
                 plugin.getAnnounceManager().getTask().cancel();
                 plugin.getTabManager().getTask().cancel();
                 plugin.loadConfigs();
-                plugin.loadTab();
+                plugin.loadTab(SightWorld.getLocalizationService());
 
                 entity.sendMessage("§dСистема §8| §fКонфиг BungeeAPI успешно перегружен! Made by Dwyur");
             }

@@ -6,9 +6,9 @@ import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntityManager;
-import minecraft.sightworld.bungeeapi.gamer.impl.BungeeGamerImpl;
 import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerLoginEvent;
 import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerQuitEvent;
+import minecraft.sightworld.bungeeapi.gamer.impl.BungeeGamerImpl;
 import minecraft.sightworld.bungeeapi.scheduler.BungeeScheduler;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
 import minecraft.sightworld.defaultlib.gamer.section.JoinMessageSection;
@@ -16,12 +16,14 @@ import minecraft.sightworld.defaultlib.gamer.section.Section;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.event.*;
+import net.md_5.bungee.api.event.LoginEvent;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.event.PreLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
-
 
 import static net.md_5.bungee.event.EventPriority.LOW;
 import static net.md_5.bungee.event.EventPriority.LOWEST;

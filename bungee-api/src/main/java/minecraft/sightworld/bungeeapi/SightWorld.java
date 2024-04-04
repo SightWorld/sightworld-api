@@ -5,16 +5,16 @@ import lombok.val;
 import minecraft.sightworld.bungeeapi.announce.AnnounceManager;
 import minecraft.sightworld.bungeeapi.command.impl.BungeeApiCommand;
 import minecraft.sightworld.bungeeapi.command.impl.BungeeWhitelistCommand;
-import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gui.acceptor.AcceptorListener;
 import minecraft.sightworld.bungeeapi.gui.service.BungeeGuiService;
 import minecraft.sightworld.bungeeapi.gui.service.impl.BungeeGuiServiceImpl;
 import minecraft.sightworld.bungeeapi.listener.GamerListener;
 import minecraft.sightworld.bungeeapi.listener.PingListener;
-import minecraft.sightworld.bungeeapi.manager.LuckPermsManager;
 import minecraft.sightworld.bungeeapi.scheduler.SchedulerManager;
 import minecraft.sightworld.bungeeapi.tab.TabManager;
 import minecraft.sightworld.bungeeapi.whitelist.WhitelistManager;
+import minecraft.sightworld.defaultlib.localization.LocalizationService;
+import minecraft.sightworld.defaultlib.localization.impl.LocalizationServiceImpl;
 import minecraft.sightworld.defaultlib.messaging.MessageService;
 import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
 import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
@@ -25,7 +25,11 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import org.redisson.api.RedissonClient;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.stream.Stream;
 
 public final class SightWorld extends Plugin {
 
@@ -55,22 +59,26 @@ public final class SightWorld extends Plugin {
     @Getter
     private static BungeeGuiService bungeeGuiService;
 
+    @Getter
+    private static LocalizationService localizationService;
+
     @Override
     public void onEnable() {
         instance = this;
+        loadLocalization();
         loadConfigs();
 
-        registerListeners();
+        registerListeners(localizationService);
         registerCommands();
 
         bungeeGuiService = new BungeeGuiServiceImpl();
         messagingService = registerMessageService();
-        loadTab();
+        loadTab(localizationService);
     }
 
-    private void registerListeners() {
+    private void registerListeners(LocalizationService localizationService) {
         new GamerListener(this);
-        new PingListener(this);
+        new PingListener(this, localizationService);
     }
 
     private void registerCommands() {
@@ -86,6 +94,14 @@ public final class SightWorld extends Plugin {
         config = loadConfig();
         whitelistManager.load();
         announceManager.load();
+    }
+
+    public void loadLocalization() {
+        localizationService = new LocalizationServiceImpl();
+
+        Stream.of(localizationService.getFiles())
+                .parallel()
+                .forEach(file -> localizationService.download(file, "https://raw.githubusercontent.com/SightWorld/localization/main/lang/" + file +".json"));
     }
 
     private MessageService registerMessageService() {
@@ -120,7 +136,7 @@ public final class SightWorld extends Plugin {
         return configuration;
     }
 
-    public void loadTab() {
-        tabManager.load(config);
+    public void loadTab(LocalizationService localizationService) {
+        tabManager.load(localizationService);
     }
 }

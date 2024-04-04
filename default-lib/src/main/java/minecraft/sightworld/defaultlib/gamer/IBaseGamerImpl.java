@@ -1,6 +1,5 @@
 package minecraft.sightworld.defaultlib.gamer;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import lombok.Getter;

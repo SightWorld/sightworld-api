@@ -11,16 +11,17 @@ import minecraft.sightworld.bukkitapi.listener.GamerListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeGuiListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeSoundListener;
 import minecraft.sightworld.bukkitapi.scoreboard.listener.BaseScoreboardListener;
+import minecraft.sightworld.defaultlib.localization.LocalizationService;
+import minecraft.sightworld.defaultlib.localization.impl.LocalizationServiceImpl;
 import minecraft.sightworld.defaultlib.messaging.MessageService;
 import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
 import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
 import minecraft.sightworld.defaultlib.redis.RedisFactory;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameRule;
-import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.redisson.api.RedissonClient;
+
+import java.util.stream.Stream;
 
 public class SightWorld extends JavaPlugin {
 
@@ -33,6 +34,9 @@ public class SightWorld extends JavaPlugin {
     @Getter
     private static ProtocolManager protocolManager;
 
+    @Getter
+    private static LocalizationService localizationService;
+
     @Override
     public void onLoad() {
         protocolManager = ProtocolLibrary.getProtocolManager();
@@ -41,8 +45,10 @@ public class SightWorld extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-
         instance = this;
+
+        loadLocalization();
+
         gamerManager = new GamerManager(this);
         registerGuiService();
         registerMessageService();
@@ -63,6 +69,13 @@ public class SightWorld extends JavaPlugin {
         });
     }
 
+    public void loadLocalization() {
+        localizationService = new LocalizationServiceImpl();
+
+        Stream.of(localizationService.getFiles())
+                .parallel()
+                .forEach(file -> localizationService.download(file, "https://raw.githubusercontent.com/SightWorld/localization/main/lang/" + file +".json"));
+    }
     private void registerCommands() {
         new ApiCommand(this);
         new CrashClientCommand(this);

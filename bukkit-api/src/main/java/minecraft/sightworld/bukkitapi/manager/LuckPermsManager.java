@@ -3,7 +3,6 @@ package minecraft.sightworld.bukkitapi.manager;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
-import net.luckperms.api.query.QueryOptions;
 
 public class LuckPermsManager {
 

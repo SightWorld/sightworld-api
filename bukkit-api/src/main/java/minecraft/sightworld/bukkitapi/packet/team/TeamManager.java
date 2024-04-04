@@ -1,13 +1,14 @@
 package minecraft.sightworld.bukkitapi.packet.team;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import lombok.*;
+import lombok.Getter;
 import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
 import minecraft.sightworld.bukkitapi.manager.LuckPermsManager;
 import minecraft.sightworld.defaultlib.utils.StringUtils;
 import org.bukkit.ChatColor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TeamManager { // гавнокод но мне пахую я панк
 

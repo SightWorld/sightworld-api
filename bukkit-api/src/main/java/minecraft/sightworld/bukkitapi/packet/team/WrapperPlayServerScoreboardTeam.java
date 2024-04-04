@@ -3,17 +3,13 @@ package minecraft.sightworld.bukkitapi.packet.team;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.utility.MinecraftReflection;
-import com.comphenix.protocol.wrappers.*;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import minecraft.sightworld.bukkitapi.packet.AbstractPacket;
 import minecraft.sightworld.defaultlib.utils.IntEnum;
-import minecraft.sightworld.defaultlib.utils.UtilityMethod;
 import org.bukkit.ChatColor;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
     public static final PacketType TYPE =

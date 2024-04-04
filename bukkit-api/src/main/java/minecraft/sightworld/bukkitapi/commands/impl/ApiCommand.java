@@ -16,7 +16,7 @@ public class ApiCommand extends BukkitCommand<SightWorld> {
     @Override
     public void execute(BukkitEntity entity, String[] args) {
         if (!entity.hasPermission("sightworld.admin")) {
-            entity.sendMessage("§cНет прав!");
+            entity.sendMessageLocale("main_no_perm");
             return;
         }
 

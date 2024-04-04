@@ -2,7 +2,6 @@ package minecraft.sightworld.bungeeapi.gamer.entity;
 
 import lombok.Getter;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
-import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
 import minecraft.sightworld.bungeeapi.gamer.entity.impl.BungeeProxyServer;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;

@@ -1,8 +1,8 @@
 package minecraft.sightworld.defaultlib.utils;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 

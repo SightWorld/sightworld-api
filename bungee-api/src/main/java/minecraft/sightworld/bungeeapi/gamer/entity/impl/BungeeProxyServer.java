@@ -1,7 +1,10 @@
 package minecraft.sightworld.bungeeapi.gamer.entity.impl;
 
 import lombok.NonNull;
+import lombok.val;
+import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
+import minecraft.sightworld.defaultlib.localization.Language;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,6 +26,13 @@ public class BungeeProxyServer implements BungeeEntity {
     public void sendMessage(BaseComponent[] components) {
         sendMessage(new TextComponent(components));
     }
+
+    @Override
+    public void sendMessageLocale(String key, Object... args) {
+        val textComponent = new TextComponent(SightWorld.getLocalizationService().get(Language.RUSSIAN, key, args));
+        sendMessage(textComponent);
+    }
+
 
     @Override
     public String getName() {

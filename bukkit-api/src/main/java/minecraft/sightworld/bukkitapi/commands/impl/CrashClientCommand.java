@@ -1,16 +1,11 @@
 package minecraft.sightworld.bukkitapi.commands.impl;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.commands.BukkitCommand;
 import minecraft.sightworld.bukkitapi.gamer.entity.BukkitEntity;
 import minecraft.sightworld.bukkitapi.packet.other.WrapperPlayServerExplosion;
 import org.bukkit.Bukkit;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class CrashClientCommand extends BukkitCommand<SightWorld> {

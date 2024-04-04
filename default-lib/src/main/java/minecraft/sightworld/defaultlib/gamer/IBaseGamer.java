@@ -6,38 +6,45 @@ import minecraft.sightworld.defaultlib.gamer.friends.Friend;
 import minecraft.sightworld.defaultlib.gamer.friends.FriendAction;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
 import minecraft.sightworld.defaultlib.group.Group;
-import minecraft.sightworld.defaultlib.group.GroupModel;
 
 import java.util.List;
 import java.util.Map;
 
-public interface  IBaseGamer {
+public interface IBaseGamer {
 
     int getPlayerID();
 
     String getName();
+
     void setName(String name);
 
     String getDisplayName();
 
 
     String getPrefix();
+
     void setPrefix(String prefix, boolean saved);
 
     Group getGroup();
+
     void setGroup(Group group);
 
     String getTag();
+
     void setTag(String tag, boolean saved);
 
     void addData(String name, Object data);
+
     <T> T getData(String name);
+
     void clearData(String name);
+
     Map<String, Object> getData();
 
     boolean isOnline();
 
     void remove();
+
     Map<String, Section> getSections();
 
     boolean hasPermission(String permission);
@@ -47,20 +54,28 @@ public interface  IBaseGamer {
     }
 
     void setRuby(int value);
+
     void changeRuby(int value);
+
     int getRuby();
 
 
     void setDefaultJoinMessage(JoinMessage message);
+
     void addJoinMessage(JoinMessage message);
+
     JoinMessage getJoinMessage();
+
     List<JoinMessage> getJoinMessages();
 
     void setDiscordID(int value);
+
     int getDiscordID();
 
     boolean isFriend(Friend friend);
+
     void changeFriend(FriendAction action, Friend friend);
+
     IntSet getFriends();
 
 

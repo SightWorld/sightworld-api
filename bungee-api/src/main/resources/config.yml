@@ -14,7 +14,7 @@ booster:
 # фейк макс онлайн, типа +1 к текущему онлайну, например 14/15
 justOneMore: true
 
-tab:
+tab: #deprecated
   header: # Доступные плейсхолдеры: %server%, %global_online% (напишите @dwyur для добавления)
     - "§d§lSightWorld"
     - " "

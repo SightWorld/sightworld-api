@@ -9,6 +9,7 @@ import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
 import minecraft.sightworld.bungeeapi.manager.LuckPermsManager;
 import minecraft.sightworld.defaultlib.gamer.GamerBase;
+import minecraft.sightworld.defaultlib.localization.Language;
 import minecraft.sightworld.defaultlib.sound.BungeeSoundDto;
 import minecraft.sightworld.defaultlib.sound.SSound;
 import minecraft.sightworld.defaultlib.sql.GamerLoader;
@@ -130,6 +131,12 @@ public class BungeeGamerImpl extends GamerBase implements BungeeEntity, BungeeGa
         val player = ProxyServer.getInstance().getPlayer(getName());
         if (player != null && player.isConnected())
             player.sendMessage(components);
+    }
+
+    @Override
+    public void sendMessageLocale(String key, Object... args) {
+        val textComponent = new TextComponent(SightWorld.getLocalizationService().get(Language.RUSSIAN, key, args));
+        sendMessage(textComponent);
     }
 
     @Override

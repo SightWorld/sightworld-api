@@ -1,12 +1,9 @@
 package minecraft.sightworld.defaultlib.gamer;
 
-import com.google.common.collect.ImmutableSet;
 import lombok.val;
 import minecraft.sightworld.defaultlib.manager.VanishManager;
-import minecraft.sightworld.defaultlib.utils.AddressUtil;
 
 import java.util.List;
-import java.util.Set;
 
 public abstract class GamerBase extends IBaseGamerImpl implements OnlineGamer {
 

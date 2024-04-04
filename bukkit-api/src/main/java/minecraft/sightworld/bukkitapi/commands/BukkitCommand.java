@@ -1,12 +1,10 @@
 package minecraft.sightworld.bukkitapi.commands;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 import minecraft.sightworld.bukkitapi.SightWorld;
-import minecraft.sightworld.bukkitapi.gamer.GamerManager;
 import minecraft.sightworld.bukkitapi.gamer.entity.BukkitEntity;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -71,7 +68,7 @@ public abstract class BukkitCommand<T extends JavaPlugin> implements CommandExec
                 return true;
 
             if ((minPermission != null) && (!player.hasPermission(minPermission))) {
-                entity.sendMessage("§cНет прав!");
+                entity.sendMessageLocale("main_no_perm");
                 return true;
             }
             if (onlyConsole) {

@@ -1,11 +1,12 @@
 package minecraft.sightworld.defaultlib.sql.api;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import minecraft.sightworld.defaultlib.sql.api.query.Query;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import minecraft.sightworld.defaultlib.sql.api.query.Query;
 
 public interface AbstractDatabase {
 

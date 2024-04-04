@@ -1,8 +1,8 @@
 package minecraft.sightworld.bukkitapi.gamer.event;
 
 import lombok.Getter;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
 import minecraft.sightworld.bukkitapi.event.SightEvent;
+import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
 
 @Getter
 public abstract class GamerEvent extends SightEvent {

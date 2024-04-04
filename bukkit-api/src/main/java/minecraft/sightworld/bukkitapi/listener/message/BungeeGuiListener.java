@@ -1,7 +1,6 @@
 package minecraft.sightworld.bukkitapi.listener.message;
 
 import lombok.RequiredArgsConstructor;
-import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.gui.GuiItem;
 import minecraft.sightworld.bukkitapi.gui.PagedGui;
 import minecraft.sightworld.bukkitapi.item.ItemBuilder;

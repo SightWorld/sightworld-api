@@ -2,7 +2,6 @@ package minecraft.sightworld.bungeeapi.util;
 
 import lombok.NonNull;
 import lombok.val;
-import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.defaultlib.utils.GradientHelper;
 import net.md_5.bungee.api.ChatColor;
 import org.jetbrains.annotations.NotNull;

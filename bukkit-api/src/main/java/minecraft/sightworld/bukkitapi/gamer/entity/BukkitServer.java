@@ -4,8 +4,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
+import minecraft.sightworld.defaultlib.localization.Language;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -31,6 +34,11 @@ public class BukkitServer implements BukkitEntity {
     @Override
     public void sendMessages(List<String> messages) {
         messages.forEach(this::sendMessage);
+    }
+
+    @Override
+    public void sendMessageLocale(String key, Object... args) {
+        sendMessage(SightWorld.getLocalizationService().get(Language.RUSSIAN, key, args));
     }
 
     @Override

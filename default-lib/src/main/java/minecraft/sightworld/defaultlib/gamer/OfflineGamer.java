@@ -2,7 +2,6 @@ package minecraft.sightworld.defaultlib.gamer;
 
 import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
-import minecraft.sightworld.defaultlib.gamer.section.BaseSection;
 import minecraft.sightworld.defaultlib.gamer.section.MoneySection;
 import minecraft.sightworld.defaultlib.gamer.section.Section;
 import minecraft.sightworld.defaultlib.sql.GamerLoader;

@@ -80,12 +80,12 @@ public abstract class BungeeCommand<T extends Plugin> extends Command implements
 
             if ((minPermission != null && !player.hasPermission(minPermission))
                     || (!player.hasPermission("sightworld.staff") && onlyStaff)) {
-                entity.sendMessage("§cНет прав!");
+                entity.sendMessageLocale("main_no_perm");
                 return;
             }
 
             if (!player.hasPermission("sightworld.donate") && onlyDonaters) {
-                entity.sendMessage("§cНет прав, купите &a&LSLIME &r&cили выше!");
+                entity.sendMessageLocale("main_no_perm_2");
                 return;
             }
 

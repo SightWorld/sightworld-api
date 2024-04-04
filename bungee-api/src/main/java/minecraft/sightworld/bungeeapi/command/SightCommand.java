@@ -69,12 +69,12 @@ public abstract class SightCommand extends Command implements TabExecutor { // �
 
             if ((minPermission != null && !player.hasPermission(minPermission))
                     || (!player.hasPermission("sightworld.staff") && onlyStaff)) {
-                entity.sendMessage("§cНет прав!");
+                entity.sendMessageLocale("main_no_perm");
                 return;
             }
 
             if (!player.hasPermission("sightworld.donate") && onlyDonaters) {
-                entity.sendMessage("§cНет прав, купите &a&LSLIME &r&cили выше!");
+                entity.sendMessageLocale("main_no_perm_2");
                 return;
             }
 
@@ -88,7 +88,7 @@ public abstract class SightCommand extends Command implements TabExecutor { // �
                     if (cooldown != FINAL_COOLDOWN) {
                         if (cooldownError == null) {
                             val time = GamerCooldown.getSecondCooldown(player.getName(), cooldownType);
-                            entity.sendMessage("§cДанную команду можно использовать 1 раз в " + time + " секунд!");
+                            entity.sendMessageLocale("main_cooldown_command", time);
                         } else {
                             entity.sendMessage(cooldownError);
                         }

@@ -9,7 +9,7 @@ public interface BukkitEntity {
 
     void sendMessage(String message);
     void sendMessages(List<String> messages);
-
+    void sendMessageLocale(String key, Object... args);
     String getName();
 
     String getChatName();

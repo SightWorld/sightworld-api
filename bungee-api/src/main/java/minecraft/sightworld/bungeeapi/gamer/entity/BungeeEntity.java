@@ -7,8 +7,7 @@ public interface BungeeEntity {
     void sendMessage(String msg);
     void sendMessage(BaseComponent component);
     void sendMessage(BaseComponent[] components);
-
-
+    void sendMessageLocale(String key, Object... args);
     String getName();
 
     String getChatName();

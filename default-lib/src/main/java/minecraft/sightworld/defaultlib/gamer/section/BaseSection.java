@@ -4,13 +4,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import minecraft.sightworld.defaultlib.group.Group;
-import minecraft.sightworld.defaultlib.utils.Pair;
-import minecraft.sightworld.defaultlib.sql.GamerLoader;
 import minecraft.sightworld.defaultlib.gamer.IBaseGamer;
+import minecraft.sightworld.defaultlib.group.Group;
+import minecraft.sightworld.defaultlib.sql.GamerLoader;
 import minecraft.sightworld.defaultlib.sql.api.table.ColumnType;
 import minecraft.sightworld.defaultlib.sql.api.table.TableColumn;
 import minecraft.sightworld.defaultlib.sql.api.table.TableConstructor;
+import minecraft.sightworld.defaultlib.utils.Pair;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)

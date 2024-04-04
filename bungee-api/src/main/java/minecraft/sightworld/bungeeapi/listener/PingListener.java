@@ -5,6 +5,8 @@ import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.scheduler.BungeeScheduler;
 import minecraft.sightworld.bungeeapi.util.HexUtil;
+import minecraft.sightworld.defaultlib.localization.Language;
+import minecraft.sightworld.defaultlib.localization.LocalizationService;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -17,8 +19,11 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public class PingListener extends EventListener<SightWorld> {
-    public PingListener(SightWorld plugin) {
+
+    private final LocalizationService localizationService;
+    public PingListener(SightWorld plugin, LocalizationService localizationService) {
         super(plugin);
+        this.localizationService = localizationService;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -34,9 +39,9 @@ public class PingListener extends EventListener<SightWorld> {
         event.registerIntent(plugin);
         BungeeScheduler.submitAsync(() -> {
             String motdHex = Joiner.on("\n")
-                    .join(plugin.getConfig().getStringList("motd_hex"));
+                    .join(localizationService.getList(Language.RUSSIAN, "motd_hex"));
             String motd = Joiner.on("\n")
-                    .join(plugin.getConfig().getStringList("motd"));
+                    .join(localizationService.getList(Language.RUSSIAN, "motd_default"));
 
             if (plugin.getWhitelistManager().isEnable()) {
                 val whitelist_hover = plugin.getWhitelistManager().getHoverText();

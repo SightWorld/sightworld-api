@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.util.ChatUtil;
+import minecraft.sightworld.defaultlib.localization.Language;
+import minecraft.sightworld.defaultlib.localization.LocalizationService;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
@@ -20,10 +22,13 @@ public class TabManager {
 
     ScheduledTask task;
 
-    public void load(Configuration config) {
+
+    public void load(LocalizationService localizationService) {
         if (task != null) task.cancel();
 
-        startTabTask(config.getStringList("tab.header"), config.getStringList("tab.footer"));
+        List<String> header = localizationService.getList(Language.RUSSIAN, "tab_header");
+        List<String> footer = localizationService.getList(Language.RUSSIAN, "tab_footer");
+        startTabTask(header, footer);
     }
 
     void startTabTask(List<String> header, List<String> footer) {

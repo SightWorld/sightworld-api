@@ -11,7 +11,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
-import java.util.UUID;
 
 public class ItemBuilder {
     private ItemStack itemStack;

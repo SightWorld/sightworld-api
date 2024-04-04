@@ -7,10 +7,8 @@ import minecraft.sightworld.bungeeapi.SightWorld;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.chat.ComponentSerializer;
 import net.md_5.bungee.protocol.packet.BossBar;
 
-import java.net.ProxySelector;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.UUID;

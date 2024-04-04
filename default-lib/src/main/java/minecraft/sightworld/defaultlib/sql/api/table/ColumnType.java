@@ -2,7 +2,6 @@ package minecraft.sightworld.defaultlib.sql.api.table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
 @Getter

@@ -3,12 +3,8 @@ package minecraft.sightworld.bungeeapi.gui.test;
 import minecraft.sightworld.bungeeapi.command.SightCommand;
 import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
-import minecraft.sightworld.bungeeapi.util.HexUtil;
 import minecraft.sightworld.defaultlib.sound.SSound;
 import minecraft.sightworld.defaultlib.sound.SSoundType;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.score.Scoreboard;
-import net.md_5.bungee.api.score.Team;
 
 public class TestCommand extends SightCommand {
     public TestCommand() {
