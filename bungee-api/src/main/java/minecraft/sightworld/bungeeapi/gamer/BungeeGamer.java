@@ -1,7 +1,5 @@
 package minecraft.sightworld.bungeeapi.gamer;
 
-import dev.simplix.protocolize.api.inventory.Inventory;
-import dev.simplix.protocolize.api.player.ProtocolizePlayer;
 import lombok.val;
 import minecraft.sightworld.bungeeapi.gamer.impl.BungeeGamerImpl;
 import minecraft.sightworld.defaultlib.gamer.GamerAPI;
