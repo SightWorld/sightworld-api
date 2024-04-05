@@ -69,7 +69,7 @@ public class LocalizationServiceImpl implements LocalizationService {
             }
         }
 
-        return String.format(message, format);
+        return replacePlaceholders(message, format);
     }
 
     @Override
@@ -85,10 +85,7 @@ public class LocalizationServiceImpl implements LocalizationService {
         }
 
         String joinedMessages = String.join("\n", messageList);
-        String formattedMessage = joinedMessages;
-        if (format.length != 0) {
-            formattedMessage = replacePlaceholders(joinedMessages, format);
-        }
+        String formattedMessage = replacePlaceholders(joinedMessages, format);
 
         return Arrays.asList(formattedMessage.split("\\n"));
     }
@@ -133,6 +130,9 @@ public class LocalizationServiceImpl implements LocalizationService {
 
 
     private String replacePlaceholders(String input, Object... format) {
+        if (format.length == 0) {
+            return input;
+        }
         String[] words = input.split(" ");
         StringBuilder result = new StringBuilder();
         int count = 0;
