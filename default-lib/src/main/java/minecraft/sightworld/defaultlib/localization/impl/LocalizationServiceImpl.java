@@ -84,9 +84,15 @@ public class LocalizationServiceImpl implements LocalizationService {
             }
         }
 
-        String formattedMessage = String.format(String.join("±", messageList), format);
-        return Arrays.asList(formattedMessage.split("±"));
+        String joinedMessages = String.join("\n", messageList);
+        String formattedMessage = joinedMessages;
+        if (format.length != 0) {
+            formattedMessage = replacePlaceholders(joinedMessages, format);
+        }
+
+        return Arrays.asList(formattedMessage.split("\\n"));
     }
+
 
     private LocalizationStorage getStorage(Language language) {
         return storageMap.get(language.getAbbreviatedName().toLowerCase());
@@ -124,4 +130,31 @@ public class LocalizationServiceImpl implements LocalizationService {
         else
             languageStorage.addMessage(keyName, localeMessage.getValue().getAsString());
     }
+
+
+    private String replacePlaceholders(String input, Object... format) {
+        String[] words = input.split(" ");
+        StringBuilder result = new StringBuilder();
+        int count = 0;
+
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(format[0])) {
+                if (count < format.length - 1) {
+                    result.append(format[count + 1]);
+                    count++;
+                } else {
+                    result.append(words[i]);
+                }
+            } else {
+                result.append(words[i]);
+            }
+
+            if (i < words.length - 1) {
+                result.append(" ");
+            }
+        }
+
+        return result.toString();
+    }
+
 }
