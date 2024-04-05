@@ -3,6 +3,7 @@ package minecraft.sightworld.defaultlib.gamer;
 public interface OnlineGamer extends IBaseGamer {
 
     void sendMessage(String message);
+    void sendMessageLocale(String message, Object... format);
     boolean isVanish();
 
     void sendTitle(String title, String subTitle);

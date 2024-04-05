@@ -22,7 +22,6 @@ public interface BukkitGamer extends BukkitEntity, OnlineGamer, IBaseGamer {
     static BukkitGamer getGamer(final int id) {
         return SightWorld.getGamerManager().getGamer(id);
     }
-
     Player getPlayer();
     ItemStack getHead();
 

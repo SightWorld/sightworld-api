@@ -11,9 +11,7 @@ public interface BukkitEntity {
     void sendMessages(List<String> messages);
     void sendMessageLocale(String key, Object... args);
     String getName();
-
     String getChatName();
-
     boolean hasPermission(String permission);
     boolean isHuman();
 }
