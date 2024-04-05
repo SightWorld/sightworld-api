@@ -129,32 +129,27 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
 
-    private String replacePlaceholders(String input, Object... format) {
-        if (format.length == 0) {
+    private String replacePlaceholders(String input, Object... objects) {
+        if (objects.length == 0) {
             return input;
         }
-        String[] words = input.split(" ");
-        StringBuilder result = new StringBuilder();
-        int count = 0;
-
-        for (int i = 0; i < words.length; i++) {
-            if (words[i].equals(format[0])) {
-                if (count < format.length - 1) {
-                    result.append(format[count + 1]);
-                    count++;
-                } else {
-                    result.append(words[i]);
-                }
-            } else {
-                result.append(words[i]);
-            }
-
-            if (i < words.length - 1) {
-                result.append(" ");
-            }
+        if (objects.length % 2 != 0) {
+            return input;
         }
 
-        return result.toString();
+        for (int i = 0; i < objects.length; i = i + 2) {
+            Object key = objects[i];
+
+            if (key == null) {
+                throw new IllegalStateException("Key can't be null");
+            }
+
+            Object value = objects[i + 1];
+
+            input = input.replace(key.toString(), value == null ? "null" : value.toString());
+        }
+
+        return input;
     }
 
 }
