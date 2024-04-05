@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalizationServiceImpl implements LocalizationService {
     private final Map<String, LocalizationStorage> storageMap = new ConcurrentHashMap<>();
 
-    private final String[] listFiles = new String[]{"main", "tab", "motd", "chat"};
+    private final String[] listFiles = new String[]{"main", "tab", "motd", "chat", "command"};
     public LocalizationServiceImpl() {
 
         for (Language language : Language.values()) {
