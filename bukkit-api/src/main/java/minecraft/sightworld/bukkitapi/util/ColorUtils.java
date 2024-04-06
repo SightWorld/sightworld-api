@@ -1,7 +1,7 @@
 package minecraft.sightworld.bukkitapi.util;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitUser;
+import minecraft.sightworld.bukkitapi.user.BukkitUser;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;

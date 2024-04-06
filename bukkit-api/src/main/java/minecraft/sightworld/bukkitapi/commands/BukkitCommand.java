@@ -5,7 +5,8 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 import minecraft.sightworld.bukkitapi.SightWorld;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitEntity;
+import minecraft.sightworld.bukkitapi.entity.BukkitEntityManager;
+import minecraft.sightworld.defaultlib.user.User;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,7 +48,7 @@ public abstract class BukkitCommand<T extends JavaPlugin> implements CommandExec
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] strings) {
-        val entity = SightWorld.getGamerManager().getEntity(commandSender);
+        val entity = BukkitEntityManager.getEntity(commandSender);
         if (entity == null)
             return true;
 
@@ -59,7 +60,7 @@ public abstract class BukkitCommand<T extends JavaPlugin> implements CommandExec
         }
 
         if (checkPlayer) {
-            val gamer = SightWorld.getGamerManager().getGamer(commandSender.getName());
+            val gamer = SightWorld.getUserService().getUser(commandSender.getName());
             if (gamer == null)
                 return true;
 
@@ -89,7 +90,7 @@ public abstract class BukkitCommand<T extends JavaPlugin> implements CommandExec
         if (onlyPlayers && !(sender instanceof Player))
             return ImmutableList.of();
 
-        val entity = SightWorld.getGamerManager().getEntity(sender);
+        val entity = BukkitEntityManager.getEntity(sender);
         if (entity == null) return ImmutableList.of();
 
         List<String> complete = tabComplete(entity, args);
@@ -99,7 +100,7 @@ public abstract class BukkitCommand<T extends JavaPlugin> implements CommandExec
     }
 
 
-    public abstract void execute(final BukkitEntity entity, final String[] args);
+    public abstract void execute(final User<?> entity, final String[] args);
 
-    public abstract List<String> tabComplete(final BukkitEntity entity, final String[] args);
+    public abstract List<String> tabComplete(final User<?> entity, final String[] args);
 }

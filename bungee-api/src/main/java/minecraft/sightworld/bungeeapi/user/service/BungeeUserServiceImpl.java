@@ -1,17 +1,17 @@
-package minecraft.sightworld.bukkitapi.user.service;
+package minecraft.sightworld.bungeeapi.user.service;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.RequiredArgsConstructor;
-import minecraft.sightworld.bukkitapi.user.BukkitUser;
+import minecraft.sightworld.bungeeapi.user.ProxiedUser;
 import minecraft.sightworld.defaultlib.group.Group;
 import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.user.UserData;
 import minecraft.sightworld.defaultlib.user.dao.UserDao;
 import minecraft.sightworld.defaultlib.user.service.UserService;
 import minecraft.sightworld.defaultlib.user.session.UserSession;
-import org.bukkit.entity.Player;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
@@ -22,33 +22,33 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService<Player> {
+public class BungeeUserServiceImpl implements UserService<ProxiedPlayer> {
 
     private final UserDao userDao;
 
-    private final Map<String, BukkitUser> users = new ConcurrentHashMap<>();
+    private final Map<String, ProxiedUser> users = new ConcurrentHashMap<>();
 
-    private final LoadingCache<String, BukkitUser> offlineCache = CacheBuilder.newBuilder()
+    private final LoadingCache<String, ProxiedUser> offlineCache = CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.HOURS)
             .build(new CacheLoader<>() {
                 @Override
-                public @NotNull BukkitUser load(@NotNull String key) {
+                public @NotNull ProxiedUser load(@NotNull String key) {
                     return loadUser(key);
                 }
             });
 
     @Override
-    public Map<String, BukkitUser> users() {
+    public Map<String, ProxiedUser> users() {
         return users;
     }
 
     @Override
-    public LoadingCache<String, BukkitUser> offlineCache() {
+    public LoadingCache<String, ProxiedUser> offlineCache() {
         return offlineCache;
     }
 
     @Override
-    public BukkitUser loadUser(String name) {
+    public ProxiedUser loadUser(String name) {
         List<UserData> userData;
         try {
             userData = userDao.queryForEq("name", name);
@@ -58,15 +58,15 @@ public class UserServiceImpl implements UserService<Player> {
         Optional<UserData> userDataOptional = userData.stream().findFirst();
         if (userDataOptional.isPresent()) {
             UserData data = userDataOptional.get();
-            return new BukkitUser(data.getName(), data);
+            return new ProxiedUser(data.getName(), data);
         }
         return null;
     }
 
 
     @Override
-    public BukkitUser createUser(UserData data) {
-        BukkitUser proxiedUser = new BukkitUser(data.getName(), data);
+    public ProxiedUser createUser(UserData data) {
+        ProxiedUser proxiedUser = new ProxiedUser(data.getName(), data);
         try {
             userDao.assignEmptyForeignCollection(data, "sessions");
             userDao.create(data);
@@ -77,10 +77,10 @@ public class UserServiceImpl implements UserService<Player> {
     }
 
     @Override
-    public void saveUser(User<Player> user) {
-        if (user instanceof BukkitUser bukkitUser) {
+    public void saveUser(User<ProxiedPlayer> user) {
+        if (user instanceof ProxiedUser proxiedUser) {
             try {
-                userDao.update(bukkitUser.getUserData());
+                userDao.update(proxiedUser.getUserData());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -91,10 +91,10 @@ public class UserServiceImpl implements UserService<Player> {
 
 
     @Override
-    public BukkitUser getUser(String name) {
+    public ProxiedUser getUser(String name) {
         try {
             return offlineCache.get(name.toLowerCase(), () -> {
-                BukkitUser onlineUser = users.get(name.toLowerCase());
+                ProxiedUser onlineUser = users.get(name.toLowerCase());
                 if (onlineUser == null) {
                     return loadUser(name);
                 } else {
@@ -107,22 +107,19 @@ public class UserServiceImpl implements UserService<Player> {
     }
 
     @Override
-    public BukkitUser getOrCreate(String name) {
-        BukkitUser bukkitUser = getUser(name);
-        if (bukkitUser == null) {
-            UserData userData = new UserData();
+    public ProxiedUser getOrCreate(String name) {
+        ProxiedUser proxiedUser = getUser(name);
+        if (proxiedUser == null) {
+            UserData userData = buildDefaultUserData(name);
 
-            userData.setName(name);
-            userData.setPrefix(Group.DEFAULT.getPrefix());
-
-            bukkitUser = createUser(userData);
+            proxiedUser = createUser(userData);
         }
-        return bukkitUser;
+        return proxiedUser;
     }
 
     @Override
-    public void addOnlineUser(User<Player> user) {
-        users.put(user.getName().toLowerCase(), (BukkitUser) user);
+    public void addOnlineUser(User<ProxiedPlayer> user) {
+        users.put(user.getName().toLowerCase(), (ProxiedUser) user);
     }
 
     @Override
@@ -131,8 +128,8 @@ public class UserServiceImpl implements UserService<Player> {
     }
 
     @Override
-    public void addOfflineUser(User<Player> user) {
-        offlineCache.put(user.getName().toLowerCase(), (BukkitUser) user);
+    public void addOfflineUser(User<ProxiedPlayer> user) {
+        offlineCache.put(user.getName().toLowerCase(), (ProxiedUser) user);
     }
 
     @Override
@@ -141,15 +138,33 @@ public class UserServiceImpl implements UserService<Player> {
     }
 
     @Override
-    public void disconnectUser(User<Player> user, String server) {
+    public void disconnectUser(User<ProxiedPlayer> user, String server) {
 
         removeOnlineUser(user.getName());
         addOfflineUser(user);
 
+        UserData userData = user.getUserData();
+
+        UserSession session = userData.getActiveSession();
+        session.setServer(server);
+        session.setLastOnline(System.currentTimeMillis());
+        session.setPlayed((System.currentTimeMillis() - session.getStartPlay()) / 1000);
+
+        userData.setActiveSession(null);
+        userData.getSessions().add(session);
+
+        saveUser(user);
     }
 
     @Override
-    public void joinUser(User<Player> user, String ip) {
+    public void joinUser(User<ProxiedPlayer> user, String ip) {
+        UserSession userSession = new UserSession();
+        userSession.setServer("N/A");
+        userSession.setStartPlay(System.currentTimeMillis());
+        userSession.setIp(ip);
+        userSession.setUserData(user.getUserData());
+
+        user.getUserData().setActiveSession(userSession);
 
         addOnlineUser(user);
     }

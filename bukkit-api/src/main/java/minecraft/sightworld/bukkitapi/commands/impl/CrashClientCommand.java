@@ -2,8 +2,8 @@ package minecraft.sightworld.bukkitapi.commands.impl;
 
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.commands.BukkitCommand;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitEntity;
 import minecraft.sightworld.bukkitapi.packet.other.WrapperPlayServerExplosion;
+import minecraft.sightworld.defaultlib.user.User;
 import org.bukkit.Bukkit;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class CrashClientCommand extends BukkitCommand<SightWorld> {
     }
 
     @Override
-    public void execute(BukkitEntity entity, String[] args) {
+    public void execute(User<?> entity, String[] args) {
         if (!entity.hasPermission("sightworld.admin")) {
             entity.sendMessage("§cНеизвестная команда!");
             return;
@@ -37,7 +37,7 @@ public class CrashClientCommand extends BukkitCommand<SightWorld> {
     }
 
     @Override
-    public List<String> tabComplete(BukkitEntity entity, String[] args) {
+    public List<String> tabComplete(User<?> entity, String[] args) {
         return null;
     }
 }

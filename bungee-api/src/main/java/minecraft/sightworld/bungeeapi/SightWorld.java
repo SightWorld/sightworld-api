@@ -12,7 +12,7 @@ import minecraft.sightworld.bungeeapi.listener.GamerListener;
 import minecraft.sightworld.bungeeapi.listener.PingListener;
 import minecraft.sightworld.bungeeapi.scheduler.SchedulerManager;
 import minecraft.sightworld.bungeeapi.tab.TabManager;
-import minecraft.sightworld.bungeeapi.user.service.UserServiceImpl;
+import minecraft.sightworld.bungeeapi.user.service.BungeeUserServiceImpl;
 import minecraft.sightworld.bungeeapi.whitelist.WhitelistManager;
 import minecraft.sightworld.defaultlib.database.Database;
 import minecraft.sightworld.defaultlib.localization.LocalizationService;
@@ -81,7 +81,7 @@ public final class SightWorld extends Plugin {
         loadLocalization();
         loadConfigs();
 
-        userService = new UserServiceImpl(database.getUserDao());
+        userService = new BungeeUserServiceImpl(database.getUserDao());
 
         registerListeners(localizationService, userService);
         registerCommands();

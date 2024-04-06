@@ -7,10 +7,8 @@ import lombok.val;
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.user.BukkitUser;
 import minecraft.sightworld.bukkitapi.user.event.AsyncGamerJoinEvent;
-import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerLoadSectionEvent;
 import minecraft.sightworld.bukkitapi.user.event.AsyncGamerPreLoginEvent;
 import minecraft.sightworld.bukkitapi.user.event.AsyncGamerQuitEvent;
-import minecraft.sightworld.bukkitapi.gamer.impl.BukkitGamerImpl;
 import minecraft.sightworld.bukkitapi.packet.team.TeamManager;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
 import minecraft.sightworld.defaultlib.user.service.UserService;
@@ -59,11 +57,11 @@ public final class GamerListener extends EventListener<SightWorld> {
             }
         }
 
-
+        userService.removeOfflineUser(name);
         BukkitUser bukkitUser = (BukkitUser) userService.getUser(name);
 
         if (bukkitUser == null) {
-            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cОшибка при загрузке данных");
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cОшибка при загрузке данных [0]");
             return;
         }
 
@@ -82,10 +80,10 @@ public final class GamerListener extends EventListener<SightWorld> {
     @EventHandler
     public void onGamerJoin(PlayerJoinEvent e) {
         val gamer = userService.getUser(e.getPlayer().getName());
-        val team = getTeam(0, gamer);
+        val team = getTeam(0, (BukkitUser) gamer);
 
         Bukkit.getOnlinePlayers().forEach(target -> {
-            getTeam(1, gamer).sendPacket(target);
+            getTeam(1, (BukkitUser) gamer).sendPacket(target);
             team.sendPacket(target);
         });
 
@@ -107,7 +105,7 @@ public final class GamerListener extends EventListener<SightWorld> {
 
         val gamer = gamers.remove(player.getName().toLowerCase());
         if (gamer == null) {
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, "§cОшибка при загрузке данных");
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, "§cОшибка при загрузке данных [1]");
             return;
         }
 
@@ -125,10 +123,10 @@ public final class GamerListener extends EventListener<SightWorld> {
             attachment.setPermission("bukkit.command.tell", false);
         }
 
-        gamer.setPlayer(player);
+        //gamer.setPlayer(player);
         player.setDisplayName(gamer.getDisplayName());
 
-        GamerAPI.addGamer(gamer);
+        userService.addOnlineUser(gamer);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -136,9 +134,9 @@ public final class GamerListener extends EventListener<SightWorld> {
         e.setJoinMessage(null);
         Player player = e.getPlayer();
 
-        val gamer = GAMER_MANAGER.getGamer(player);
+        val gamer = userService.getUser(player.getName());
         if (gamer == null) {
-            player.kickPlayer("§cОшибка при загрузке данных");
+            player.kickPlayer("§cОшибка при загрузке данных [2]");
             return;
         }
 
@@ -147,7 +145,7 @@ public final class GamerListener extends EventListener<SightWorld> {
                 return;
             }
 
-            BukkitScheduler.callEvent(new AsyncGamerJoinEvent(gamer));
+            BukkitScheduler.callEvent(new AsyncGamerJoinEvent((BukkitUser) gamer));
         });
     }
 
@@ -156,11 +154,11 @@ public final class GamerListener extends EventListener<SightWorld> {
         e.setQuitMessage(null);
         val player = e.getPlayer();
 
-        val gamer = GAMER_MANAGER.getGamer(player);
+        val gamer = userService.getUser(player.getName());
         if (gamer != null) {
-            BukkitScheduler.runTaskAsync(() -> BukkitScheduler.callEvent(new AsyncGamerQuitEvent(gamer)));
+            BukkitScheduler.runTaskAsync(() -> BukkitScheduler.callEvent(new AsyncGamerQuitEvent((BukkitUser) gamer)));
         }
 
-        GAMER_MANAGER.removeGamer(player);
+        userService.disconnectUser(gamer, null);
     }
 }

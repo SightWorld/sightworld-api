@@ -3,6 +3,7 @@ package minecraft.sightworld.defaultlib.user;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import minecraft.sightworld.defaultlib.group.Group;
 import minecraft.sightworld.defaultlib.sound.SSound;
 import minecraft.sightworld.defaultlib.user.session.UserSession;
 
@@ -40,6 +41,17 @@ public abstract class User<P> {
         } catch(IndexOutOfBoundsException ex) {
             return null;
         }
+    }
+    public String getChatName() {
+        return getUserData().getPrefix() + getName();
+    }
+
+    public String getDisplayName() {
+        return getUserData().getPrefix() + getName() + getUserData().getTag();
+    }
+
+    public Group getGroup() {
+        return Group.getGroupByName(getUserData().getGroup());
     }
     public abstract P getPlayer();
     public abstract void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut);

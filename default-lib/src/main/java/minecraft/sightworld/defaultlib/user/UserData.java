@@ -31,8 +31,15 @@ public class UserData {
     @DatabaseField
     private String prefix;
 
+    @DatabaseField
+    private String tag;
+
+    @DatabaseField
+    private String group;
+
     @ForeignCollectionField(eager = true)
     private ForeignCollection<UserSession> sessions;
+
 
     private UserSession activeSession;
 

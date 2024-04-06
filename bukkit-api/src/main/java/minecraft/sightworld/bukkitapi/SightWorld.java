@@ -10,7 +10,7 @@ import minecraft.sightworld.bukkitapi.listener.GamerListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeGuiListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeSoundListener;
 import minecraft.sightworld.bukkitapi.scoreboard.listener.BaseScoreboardListener;
-import minecraft.sightworld.bukkitapi.user.service.UserServiceImpl;
+import minecraft.sightworld.bukkitapi.user.service.BukkitUserServiceImpl;
 import minecraft.sightworld.defaultlib.database.Database;
 import minecraft.sightworld.defaultlib.localization.LocalizationService;
 import minecraft.sightworld.defaultlib.localization.impl.LocalizationServiceImpl;
@@ -57,7 +57,7 @@ public class SightWorld extends JavaPlugin {
         loadDatabase();
         loadLocalization();
 
-        userService = new UserServiceImpl(database.getUserDao());
+        userService = new BukkitUserServiceImpl(database.getUserDao());
 
         registerGuiService();
         registerMessageService();

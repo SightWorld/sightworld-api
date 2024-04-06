@@ -18,7 +18,7 @@ public class TeamManager { // гавнокод но мне пахую я пан�
     public static WrapperPlayServerScoreboardTeam getTeam(int mode, BukkitUser gamer) {
         String prefix = gamer.getUserData().getPrefix();
         String name = gamer.getName();
-        String tag = gamer.getTag();
+        String tag = gamer.getUserData().getTag();
 
         WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
         team.setName(LuckPermsManager.getTabPriority(name) + name);

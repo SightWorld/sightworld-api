@@ -1,6 +1,7 @@
 package minecraft.sightworld.defaultlib.user.service;
 
 import com.google.common.cache.LoadingCache;
+import minecraft.sightworld.defaultlib.group.Group;
 import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.user.UserData;
 
@@ -20,4 +21,13 @@ public interface UserService<T> {
     void removeOfflineUser(String user);
     void disconnectUser(User<T> user, String server);
     void joinUser(User<T> user, String ip);
+    default UserData buildDefaultUserData(String name) {
+        UserData userData = new UserData();
+        userData.setName(name);
+        userData.setPrefix(Group.DEFAULT.getPrefix());
+        userData.setGroup(Group.DEFAULT.name());
+        userData.setTag("");
+
+        return userData;
+    }
 }
