@@ -23,6 +23,7 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '6.1'
     implementation project(path: ':default-lib')
     implementation 'org.redisson:redisson:3.24.3'
     compileOnly 'net.md-5:bungeecord-api:1.20-R0.2-SNAPSHOT'

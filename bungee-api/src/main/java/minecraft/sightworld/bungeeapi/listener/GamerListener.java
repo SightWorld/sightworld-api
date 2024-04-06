@@ -1,21 +1,17 @@
 package minecraft.sightworld.bungeeapi.listener;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
-import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
 import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntityManager;
 import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerLoginEvent;
 import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerQuitEvent;
-import minecraft.sightworld.bungeeapi.gamer.impl.BungeeGamerImpl;
 import minecraft.sightworld.bungeeapi.scheduler.BungeeScheduler;
-import minecraft.sightworld.defaultlib.gamer.GamerAPI;
-import minecraft.sightworld.defaultlib.gamer.section.JoinMessageSection;
-import minecraft.sightworld.defaultlib.gamer.section.Section;
+import minecraft.sightworld.bungeeapi.user.ProxiedUser;
+import minecraft.sightworld.defaultlib.user.service.UserService;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PreLoginEvent;
@@ -23,24 +19,19 @@ import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.event.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
-
 import static net.md_5.bungee.event.EventPriority.LOW;
 import static net.md_5.bungee.event.EventPriority.LOWEST;
 
 public class GamerListener extends EventListener<SightWorld> {
 
-    Object2ObjectMap<String, BungeeGamerImpl> gamers2 = new Object2ObjectOpenHashMap<>();
-
-    protected Set<Class<? extends Section>> initSections() { // Секции, которые надо загрузить после инициализации плеера
-        return Set.of(JoinMessageSection.class);
-    }
-
     private final SightWorld plugin;
 
-    public GamerListener(SightWorld plugin) {
+    private final UserService<ProxiedPlayer> userService;
+
+    public GamerListener(SightWorld plugin, UserService<ProxiedPlayer> userService) {
         super(plugin);
         this.plugin = plugin;
+        this.userService = userService;
     }
 
     @EventHandler(priority = LOWEST)
@@ -119,17 +110,17 @@ public class GamerListener extends EventListener<SightWorld> {
         val connection = event.getConnection();
         val name = connection.getName();
 
-        GamerAPI.removeOfflinePlayer(name);
+        userService.removeOfflineUser(name);
 
         event.registerIntent(plugin);
         BungeeScheduler.submitAsync(() -> {
-            val gamer = BungeeGamer.getOrCreate(name, connection.getAddress().getAddress());
+            val gamer = userService.getOrCreate(name);
 
             final Callback<AsyncGamerLoginEvent> callback = (asyncGamerLoginEvent, throwable) -> {
 
             };
 
-            BungeeScheduler.callEventAsync(new AsyncGamerLoginEvent(gamer, connection, callback));
+            BungeeScheduler.callEventAsync(new AsyncGamerLoginEvent((ProxiedUser) gamer, connection, callback));
             System.out.println("Игрок " + gamer.getName() + " инициализировался в SightWorld API!");
             event.completeIntent(plugin);
         });
@@ -139,17 +130,12 @@ public class GamerListener extends EventListener<SightWorld> {
     public void onLoadGamer(final @NotNull AsyncGamerLoginEvent event) {
         event.registerIntent(plugin);
         BungeeScheduler.submitAsync(() -> {
-            val gamer = (BungeeGamerImpl) event.getGamer();
+            val user = event.getUser();
 
-            if (initSections() != null) {
-                initSections().forEach(gamer::initSection);
-            }
 
-            ProxyServer.getInstance().getLogger().info("§fДанные игрока §b" + gamer.getName() + "§f загружены за (§a"
-                    + (System.currentTimeMillis() - gamer.getStart()) + "ms§f)");
+            ProxyServer.getInstance().getLogger().info("§fДанные игрока §b" + user.getName() + "§f загружены §f)");
 
-            gamers2.put(gamer.getName().toLowerCase(), gamer);
-            GamerAPI.addGamer(gamer);
+            userService.addOnlineUser(user);
             event.completeIntent(plugin);
         });
     }

@@ -24,6 +24,7 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '6.1'
     compileOnly 'net.luckperms:api:5.4'
     compileOnly("com.viaversion:viaversion-api:4.9.2")
     compileOnly group: 'com.comphenix.protocol', name: 'ProtocolLib', version: '5.1.0'

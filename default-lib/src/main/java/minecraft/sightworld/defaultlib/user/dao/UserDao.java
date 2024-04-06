@@ -7,7 +7,7 @@ import minecraft.sightworld.defaultlib.user.UserData;
 import java.sql.SQLException;
 
 public class UserDao extends BaseDaoImpl<UserData, Long> {
-    protected UserDao(ConnectionSource connectionSource, Class<UserData> dataClass) throws SQLException {
+    public UserDao(ConnectionSource connectionSource, Class<UserData> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
 }

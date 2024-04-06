@@ -1,5 +1,6 @@
 package minecraft.sightworld.defaultlib.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import minecraft.sightworld.defaultlib.sound.SSound;
@@ -8,13 +9,16 @@ import java.util.List;
 
 @Getter
 @Setter
-public abstract class AbstractUser<P> {
+@AllArgsConstructor
+public abstract class User<P> {
 
     private String name;
 
-    private boolean online;
-
     private UserData userData;
+
+    public boolean isOnline() {
+        return getPlayer() != null;
+    }
     public abstract P getPlayer();
     public abstract void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut);
     public abstract void sendActionBar(String message);

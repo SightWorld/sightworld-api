@@ -14,6 +14,12 @@ public class UserSession {
     public UserSession() {
 
     }
+
+    public UserSession(String ip, String server, long startPlay) {
+        this.ip = ip;
+        this.server = server;
+        this.startPlay = startPlay;
+    }
     @DatabaseField(generatedId = true)
     private long id;
 

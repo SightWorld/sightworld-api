@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
+import minecraft.sightworld.bungeeapi.user.ProxiedUser;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @ToString
 public class AsyncGamerLoginEvent extends AsyncEvent<AsyncGamerLoginEvent> implements Cancellable {
 
-    BungeeGamer gamer;
+    ProxiedUser user;
     PendingConnection connection;
 
     @NonFinal
@@ -29,12 +29,12 @@ public class AsyncGamerLoginEvent extends AsyncEvent<AsyncGamerLoginEvent> imple
     BaseComponent cancelReason;
 
     public AsyncGamerLoginEvent(
-            final BungeeGamer gamer,
+            final ProxiedUser user,
             final PendingConnection connection,
             final Callback<AsyncGamerLoginEvent> done
     ) {
         super(done);
-        this.gamer = gamer;
+        this.user = user;
         this.connection = connection;
     }
 

@@ -16,6 +16,12 @@ public class UserData {
 
     }
 
+    public UserData(String name, String prefix, UserSession activeSession) {
+        this.name = name;
+        this.prefix = prefix;
+        this.activeSession = activeSession;
+    }
+
     @DatabaseField(generatedId = true)
     private long id;
 

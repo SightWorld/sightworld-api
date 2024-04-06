@@ -13,12 +13,15 @@ import minecraft.sightworld.bungeeapi.listener.PingListener;
 import minecraft.sightworld.bungeeapi.scheduler.SchedulerManager;
 import minecraft.sightworld.bungeeapi.tab.TabManager;
 import minecraft.sightworld.bungeeapi.whitelist.WhitelistManager;
+import minecraft.sightworld.defaultlib.database.Database;
 import minecraft.sightworld.defaultlib.localization.LocalizationService;
 import minecraft.sightworld.defaultlib.localization.impl.LocalizationServiceImpl;
 import minecraft.sightworld.defaultlib.messaging.MessageService;
 import minecraft.sightworld.defaultlib.messaging.impl.MessageServiceImpl;
 import minecraft.sightworld.defaultlib.redis.DefaultRedisFactory;
 import minecraft.sightworld.defaultlib.redis.RedisFactory;
+import minecraft.sightworld.defaultlib.user.service.UserService;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -29,6 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.stream.Stream;
 
 public final class SightWorld extends Plugin {
@@ -62,9 +66,14 @@ public final class SightWorld extends Plugin {
     @Getter
     private static LocalizationService localizationService;
 
+    @Getter
+    private static Database database;
+
     @Override
     public void onEnable() {
         instance = this;
+
+        loadDatabase();
         loadLocalization();
         loadConfigs();
 
@@ -76,8 +85,8 @@ public final class SightWorld extends Plugin {
         loadTab(localizationService);
     }
 
-    private void registerListeners(LocalizationService localizationService) {
-        new GamerListener(this);
+    private void registerListeners(LocalizationService localizationService, UserService<ProxiedPlayer> userService) {
+        new GamerListener(this, userService);
         new PingListener(this, localizationService);
     }
 
@@ -102,6 +111,16 @@ public final class SightWorld extends Plugin {
         Stream.of(localizationService.getFiles())
                 .parallel()
                 .forEach(file -> localizationService.download(file, "https://raw.githubusercontent.com/SightWorld/localization/main/lang/" + file +".json"));
+    }
+
+    public void loadDatabase() {
+        database = new Database();
+        try {
+            database.load();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private MessageService registerMessageService() {
