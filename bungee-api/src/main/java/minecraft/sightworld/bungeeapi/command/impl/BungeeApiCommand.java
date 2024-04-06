@@ -3,7 +3,7 @@ package minecraft.sightworld.bungeeapi.command.impl;
 import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.command.BungeeCommand;
-import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
+import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.utils.TimeUtil;
 
 import java.lang.management.ManagementFactory;
@@ -16,7 +16,7 @@ public class BungeeApiCommand extends BungeeCommand<SightWorld> {
     }
 
     @Override
-    public void execute(BungeeEntity entity, String[] args) {
+    public void execute(User<?> entity, String[] args) {
         if (args.length == 0 ) {
             entity.sendMessage("§dSWBungeeAPI §fmade by Dwyur");
             return;
@@ -51,7 +51,7 @@ public class BungeeApiCommand extends BungeeCommand<SightWorld> {
     }
 
     @Override
-    public Iterable<String> tabComplete(BungeeEntity entity, String[] args) {
+    public Iterable<String> tabComplete(User<?> entity, String[] args) {
         if (entity.hasPermission("sightworld.admin")) {
             return List.of("reload", "mem");
         }

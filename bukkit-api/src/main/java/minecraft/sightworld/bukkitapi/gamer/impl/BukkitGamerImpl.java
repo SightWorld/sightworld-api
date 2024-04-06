@@ -4,7 +4,7 @@ import com.viaversion.viaversion.api.Via;
 import lombok.Getter;
 import lombok.Setter;
 import minecraft.sightworld.bukkitapi.SightWorld;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
+import minecraft.sightworld.bukkitapi.gamer.entity.BukkitUser;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerLoadSectionEvent;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
 import minecraft.sightworld.defaultlib.gamer.GamerBase;
@@ -23,7 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import java.net.InetAddress;
 import java.util.Set;
 
-public class BukkitGamerImpl extends GamerBase implements BukkitGamer {
+public class BukkitGamerImpl extends GamerBase implements BukkitUser {
 
     @Getter
     final InetAddress ip;

@@ -1,6 +1,5 @@
-package minecraft.sightworld.bungeeapi.gamer.event;
+package minecraft.sightworld.bungeeapi.user.event;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,11 +12,14 @@ import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.AsyncEvent;
 import net.md_5.bungee.api.plugin.Cancellable;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+import static lombok.AccessLevel.PRIVATE;
+
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 @Getter
 @Setter
 @ToString
-public final class AsyncGamerQuitEvent extends AsyncEvent<AsyncGamerQuitEvent> implements Cancellable {
+public class AsyncUserLoginEvent extends AsyncEvent<AsyncUserLoginEvent> implements Cancellable {
+
     ProxiedUser user;
     PendingConnection connection;
 
@@ -26,13 +28,14 @@ public final class AsyncGamerQuitEvent extends AsyncEvent<AsyncGamerQuitEvent> i
     @NonFinal
     BaseComponent cancelReason;
 
-    public AsyncGamerQuitEvent(
+    public AsyncUserLoginEvent(
             final ProxiedUser user,
             final PendingConnection connection,
-            final Callback<AsyncGamerQuitEvent> done
+            final Callback<AsyncUserLoginEvent> done
     ) {
         super(done);
         this.user = user;
         this.connection = connection;
     }
+
 }

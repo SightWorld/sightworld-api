@@ -18,4 +18,6 @@ public interface UserService<T> {
     void removeOnlineUser(String user);
     void addOfflineUser(User<T> user);
     void removeOfflineUser(String user);
+    void disconnectUser(User<T> user, String server);
+    void joinUser(User<T> user, String ip);
 }

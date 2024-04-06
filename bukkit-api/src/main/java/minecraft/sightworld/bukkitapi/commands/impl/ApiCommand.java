@@ -3,7 +3,7 @@ package minecraft.sightworld.bukkitapi.commands.impl;
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.bukkitapi.commands.BukkitCommand;
 import minecraft.sightworld.bukkitapi.gamer.entity.BukkitEntity;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
+import minecraft.sightworld.bukkitapi.gamer.entity.BukkitUser;
 import minecraft.sightworld.bukkitapi.util.ColorUtils;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class ApiCommand extends BukkitCommand<SightWorld> {
                 entity.sendMessage("§aКонфигурация API §f(v1.0, made by Dwyur)§a успешно перезагружена!");
             }
             case "test" -> {
-                entity.sendMessage(ColorUtils.fixForLegacyPlayers((BukkitGamer) entity, "&#FBA0A0 &lADMIN &r&#FBA0A0Dwyur", "&4&lADMIN &r&lDwyur"));
+                entity.sendMessage(ColorUtils.fixForLegacyPlayers((BukkitUser) entity, "&#FBA0A0 &lADMIN &r&#FBA0A0Dwyur", "&4&lADMIN &r&lDwyur"));
             }
         }
     }

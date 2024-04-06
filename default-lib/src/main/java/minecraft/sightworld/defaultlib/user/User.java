@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import minecraft.sightworld.defaultlib.sound.SSound;
+import minecraft.sightworld.defaultlib.user.session.UserSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,6 +20,26 @@ public abstract class User<P> {
 
     public boolean isOnline() {
         return getPlayer() != null;
+    }
+    public long getPlayedTime() {
+        long playedTime = 0;
+
+        for (UserSession session : userData.getSessions()) {
+            if (userData.getActiveSession() != null && session == userData.getActiveSession()) {
+                playedTime += (System.currentTimeMillis() - userData.getActiveSession().getStartPlay()) / 1000;
+                continue;
+            }
+            playedTime += session.getPlayed();
+        }
+        return playedTime;
+    }
+
+    public UserSession getLastSession() {
+        try {
+            return new ArrayList<>(userData.getSessions()).get(userData.getSessions().size() - 1);
+        } catch(IndexOutOfBoundsException ex) {
+            return null;
+        }
     }
     public abstract P getPlayer();
     public abstract void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut);

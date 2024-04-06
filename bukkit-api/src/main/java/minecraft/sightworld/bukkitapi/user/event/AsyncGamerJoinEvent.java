@@ -1,8 +1,8 @@
-package minecraft.sightworld.bukkitapi.gamer.event;
+package minecraft.sightworld.bukkitapi.user.event;
 
 import lombok.Getter;
 import lombok.Setter;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
+import minecraft.sightworld.bukkitapi.user.BukkitUser;
 import org.bukkit.event.Cancellable;
 
 @Getter
@@ -11,7 +11,7 @@ public class AsyncGamerJoinEvent extends GamerEvent implements Cancellable {
 
     private boolean cancelled;
 
-    public AsyncGamerJoinEvent(BukkitGamer gamer) {
+    public AsyncGamerJoinEvent(BukkitUser gamer) {
         super(gamer, true);
     }
 }

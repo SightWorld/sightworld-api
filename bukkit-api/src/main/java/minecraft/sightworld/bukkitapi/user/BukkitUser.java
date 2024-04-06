@@ -1,28 +1,29 @@
-package minecraft.sightworld.bungeeapi.user;
+package minecraft.sightworld.bukkitapi.user;
 
+import com.viaversion.viaversion.api.Via;
 import lombok.val;
-import minecraft.sightworld.bungeeapi.SightWorld;
+import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.defaultlib.localization.Language;
 import minecraft.sightworld.defaultlib.sound.BungeeSoundDto;
 import minecraft.sightworld.defaultlib.sound.SSound;
 import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.user.UserData;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.protocol.packet.Title;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class ProxiedUser extends User<ProxiedPlayer> {
-    public ProxiedUser(String name, UserData userData) {
+public class BukkitUser extends User<Player> {
+    public BukkitUser(String name, UserData userData) {
         super(name, userData);
     }
 
     @Override
-    public ProxiedPlayer getPlayer() {
-        return ProxyServer.getInstance().getPlayer(getName());
+    public Player getPlayer() {
+        return Bukkit.getPlayer(getName());
     }
 
     @Override
@@ -31,12 +32,7 @@ public class ProxiedUser extends User<ProxiedPlayer> {
         if (player == null)
             return;
 
-        player.sendTitle(ProxyServer.getInstance().createTitle()
-                .title(new TextComponent(title))
-                .subTitle(new TextComponent(subtitle))
-                .fadeIn(fadeIn)
-                .fadeOut(fadeOut)
-                .stay(stay));
+        player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class ProxiedUser extends User<ProxiedPlayer> {
         if (player == null)
             return;
 
-        player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
     }
 
     @Override
@@ -53,9 +49,7 @@ public class ProxiedUser extends User<ProxiedPlayer> {
         val player = getPlayer();
         if (player == null)
             return;
-
-        BungeeSoundDto dto = new BungeeSoundDto(sound, getName());
-        SightWorld.getMessagingService().sendMessage(dto, "sound");
+        player.playSound(player.getLocation(), Sound.valueOf(sound.getSoundType().name()), sound.getVolume(), sound.getPitch());
     }
 
     @Override
@@ -63,7 +57,7 @@ public class ProxiedUser extends User<ProxiedPlayer> {
         val player = getPlayer();
         if (player == null)
             return;
-        player.sendMessage(new TextComponent(message));
+        player.sendMessage(message);
     }
 
     @Override
@@ -87,4 +81,7 @@ public class ProxiedUser extends User<ProxiedPlayer> {
         return player.hasPermission(permission); //TODO
     }
 
+    public int getVersion() {
+        return Via.getAPI().getPlayerVersion(getPlayer().getUniqueId());
+    }
 }

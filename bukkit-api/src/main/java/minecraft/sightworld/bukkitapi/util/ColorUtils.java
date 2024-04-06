@@ -1,7 +1,7 @@
 package minecraft.sightworld.bukkitapi.util;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
+import minecraft.sightworld.bukkitapi.gamer.entity.BukkitUser;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -50,7 +50,7 @@ public class ColorUtils {
      * @param defaultText - дефолтный, если он не поддерживается у игрока
      * @return - возвращает итоговую строку
      */
-    public static String fixForLegacyPlayers(BukkitGamer gamer, String hexText, String defaultText) {
+    public static String fixForLegacyPlayers(BukkitUser gamer, String hexText, String defaultText) {
         return (gamer.getVersion() > ProtocolVersion.v1_16_4.getVersion()) ? translateColorCodes(hexText) : defaultText;
     }
 }

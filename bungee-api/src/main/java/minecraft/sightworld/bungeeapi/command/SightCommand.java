@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableSet;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
-import minecraft.sightworld.bungeeapi.gamer.BungeeGamer;
-import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
-import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntityManager;
+import minecraft.sightworld.bungeeapi.SightWorld;
+import minecraft.sightworld.bungeeapi.entity.BungeeEntityManager;
+import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.utils.cooldown.GamerCooldown;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -59,7 +59,7 @@ public abstract class SightCommand extends Command implements TabExecutor { // Ð
         }
 
         if (checkPlayer) {
-            val gamer = BungeeGamer.getGamer(commandSender.getName());
+            val gamer = SightWorld.getUserService().getUser(commandSender.getName());
             if (gamer == null)
                 return;
 
@@ -83,20 +83,18 @@ public abstract class SightCommand extends Command implements TabExecutor { // Ð
                 return;
             }
 
-            if (!gamer.isAdmin()) {
-                if (GamerCooldown.hasCooldown(player.getName(), cooldownType)) {
-                    if (cooldown != FINAL_COOLDOWN) {
-                        if (cooldownError == null) {
-                            val time = GamerCooldown.getSecondCooldown(player.getName(), cooldownType);
-                            entity.sendMessageLocale("main_cooldown_command", time);
-                        } else {
-                            entity.sendMessage(cooldownError);
-                        }
+            if (GamerCooldown.hasCooldown(player.getName(), cooldownType)) {
+                if (cooldown != FINAL_COOLDOWN) {
+                    if (cooldownError == null) {
+                        val time = GamerCooldown.getSecondCooldown(player.getName(), cooldownType);
+                        entity.sendMessageLocale("main_cooldown_command", time);
+                    } else {
+                        entity.sendMessage(cooldownError);
                     }
-                    return;
                 }
-                GamerCooldown.addCooldown(player.getName(), cooldownType, cooldown);
+                return;
             }
+            GamerCooldown.addCooldown(player.getName(), cooldownType, cooldown);
         }
 
         this.execute(entity, strings);
@@ -116,9 +114,9 @@ public abstract class SightCommand extends Command implements TabExecutor { // Ð
         return complete;
     }
 
-    public abstract void execute(final BungeeEntity entity, final String[] args);
+    public abstract void execute(final User<?> entity, final String[] args);
 
-    public abstract Iterable<String> tabComplete(final BungeeEntity entity, final String[] args);
+    public abstract Iterable<String> tabComplete(final User<?> entity, final String[] args);
 
     public void setCooldown(int second, String type) {
         this.cooldown = second * 20;

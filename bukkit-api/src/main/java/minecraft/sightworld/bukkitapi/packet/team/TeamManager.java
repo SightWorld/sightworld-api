@@ -2,8 +2,8 @@ package minecraft.sightworld.bukkitapi.packet.team;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import lombok.Getter;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
 import minecraft.sightworld.bukkitapi.manager.LuckPermsManager;
+import minecraft.sightworld.bukkitapi.user.BukkitUser;
 import minecraft.sightworld.defaultlib.utils.StringUtils;
 import org.bukkit.ChatColor;
 
@@ -15,8 +15,8 @@ public class TeamManager { // гавнокод но мне пахую я пан�
     @Getter
     private static final List<WrapperPlayServerScoreboardTeam> teams = new ArrayList<>();
 
-    public static WrapperPlayServerScoreboardTeam getTeam(int mode, BukkitGamer gamer) {
-        String prefix = gamer.getPrefix();
+    public static WrapperPlayServerScoreboardTeam getTeam(int mode, BukkitUser gamer) {
+        String prefix = gamer.getUserData().getPrefix();
         String name = gamer.getName();
         String tag = gamer.getTag();
 

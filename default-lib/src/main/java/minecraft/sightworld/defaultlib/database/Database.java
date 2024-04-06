@@ -17,12 +17,14 @@ public class Database {
     public JdbcPooledConnectionSource getConnectionSource () {
         JdbcPooledConnectionSource connectionSource;
         try {
-            connectionSource = new JdbcPooledConnectionSource("jdbc:mysql://localhost:3306/sightworld?useSSL=false&serverTimezone=UTC");
+            //connectionSource = new JdbcPooledConnectionSource("jdbc:mysql://localhost:3306/sightworld?useSSL=false&serverTimezone=UTC");
+            connectionSource = new JdbcPooledConnectionSource("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         connectionSource.setUsername("root");
-        connectionSource.setPassword("*23AmnasTmaj318.?%%DK391S");
+        connectionSource.setPassword("");
+        //connectionSource.setPassword("*23AmnasTmaj318.?%%DK391S");
         return connectionSource;
     }
 

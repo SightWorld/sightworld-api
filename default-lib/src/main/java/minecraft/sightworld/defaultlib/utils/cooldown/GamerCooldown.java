@@ -2,7 +2,7 @@ package minecraft.sightworld.defaultlib.utils.cooldown;
 
 
 import lombok.experimental.UtilityClass;
-import minecraft.sightworld.defaultlib.gamer.IBaseGamer;
+import minecraft.sightworld.defaultlib.user.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class GamerCooldown {
         addCooldown(playerName, "global", ticks);
     }
 
-    public void addCooldown(final @NotNull IBaseGamer gamer, final long ticks) {
+    public void addCooldown(final @NotNull User<?> gamer, final long ticks) {
         addCooldown(gamer.getName(), ticks);
     }
 
@@ -28,11 +28,11 @@ public class GamerCooldown {
         return hasCooldown(playerName, "global");
     }
 
-    public boolean hasCooldown(final @NotNull IBaseGamer gamer) {
+    public boolean hasCooldown(final @NotNull User<?> gamer) {
         return hasCooldown(gamer.getName(), "global");
     }
 
-    public boolean hasCooldown(final @NotNull IBaseGamer gamer, String type) {
+    public boolean hasCooldown(final @NotNull User<?> gamer, String type) {
         return hasCooldown(gamer.getName(), type);
     }
 
@@ -80,7 +80,7 @@ public class GamerCooldown {
      * @param type  тип
      * @return cooldown time in seconds
      */
-    public int getSecondCooldown(final @NotNull IBaseGamer gamer, final String type) {
+    public int getSecondCooldown(final @NotNull User<?> gamer, final String type) {
         return getSecondCooldown(gamer.getName(), type);
     }
 
@@ -114,7 +114,7 @@ public class GamerCooldown {
      * @param type тип
      * @param ticks время в тиках
      */
-    public void addCooldown(final @NotNull IBaseGamer gamer, final String type, final long ticks) {
+    public void addCooldown(final @NotNull User<?> gamer, final String type, final long ticks) {
         addCooldown(gamer.getName(), type, ticks);
     }
 
@@ -123,7 +123,7 @@ public class GamerCooldown {
      * если его нет, то просто добавит его
      * @return - есть сейчас или нет кулдауна
      */
-    public boolean hasOrAddCooldown(final IBaseGamer gamer, final String type, final long tick) {
+    public boolean hasOrAddCooldown(final User<?> gamer, final String type, final long tick) {
         if (!hasCooldown(gamer, type)) {
             addCooldown(gamer, type, tick);
             return false;

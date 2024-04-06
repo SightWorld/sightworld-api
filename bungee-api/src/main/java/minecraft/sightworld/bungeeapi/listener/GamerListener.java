@@ -1,10 +1,11 @@
 package minecraft.sightworld.bungeeapi.listener;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
-import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntityManager;
-import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerLoginEvent;
-import minecraft.sightworld.bungeeapi.gamer.event.AsyncGamerQuitEvent;
+import minecraft.sightworld.bungeeapi.user.event.AsyncUserLoginEvent;
+import minecraft.sightworld.bungeeapi.user.event.AsyncUserQuitEvent;
 import minecraft.sightworld.bungeeapi.scheduler.BungeeScheduler;
 import minecraft.sightworld.bungeeapi.user.ProxiedUser;
 import minecraft.sightworld.defaultlib.user.service.UserService;
@@ -27,6 +28,8 @@ public class GamerListener extends EventListener<SightWorld> {
     private final SightWorld plugin;
 
     private final UserService<ProxiedPlayer> userService;
+
+    Object2ObjectMap<String, ProxiedUser> gamers2 = new Object2ObjectOpenHashMap<>();
 
     public GamerListener(SightWorld plugin, UserService<ProxiedPlayer> userService) {
         super(plugin);
@@ -96,7 +99,7 @@ public class GamerListener extends EventListener<SightWorld> {
             e.setCancelReason(new TextComponent(plugin.getWhitelistManager().getKickMessage()));
             e.setCancelled(true);
 
-            BungeeEntityManager.getBungee().sendMessage("§fИгрок §b" + name +
+            System.out.println("§fИгрок §b" + name +
                     "§f попытался зайти, но был исключен т.к включены тех. работы");
             return false;
         }
@@ -116,40 +119,42 @@ public class GamerListener extends EventListener<SightWorld> {
         BungeeScheduler.submitAsync(() -> {
             val gamer = userService.getOrCreate(name);
 
-            final Callback<AsyncGamerLoginEvent> callback = (asyncGamerLoginEvent, throwable) -> {
+            final Callback<AsyncUserLoginEvent> callback = (asyncGamerLoginEvent, throwable) -> {
 
             };
 
-            BungeeScheduler.callEventAsync(new AsyncGamerLoginEvent((ProxiedUser) gamer, connection, callback));
+            BungeeScheduler.callEventAsync(new AsyncUserLoginEvent((ProxiedUser) gamer, connection, callback));
             System.out.println("Игрок " + gamer.getName() + " инициализировался в SightWorld API!");
             event.completeIntent(plugin);
         });
     }
 
     @EventHandler(priority = LOWEST)
-    public void onLoadGamer(final @NotNull AsyncGamerLoginEvent event) {
+    public void onLoadGamer(final @NotNull AsyncUserLoginEvent event) {
         event.registerIntent(plugin);
         BungeeScheduler.submitAsync(() -> {
             val user = event.getUser();
 
 
-            ProxyServer.getInstance().getLogger().info("§fДанные игрока §b" + user.getName() + "§f загружены §f)");
+            ProxyServer.getInstance().getLogger().info("§fДанные игрока §b" + user.getName() + "§f загружены");
+            gamers2.put(user.getName().toLowerCase(), user);
 
-            userService.addOnlineUser(user);
+            userService.joinUser(user, event.getConnection().getSocketAddress().toString().split("/")[1].split(":")[0]);
+
             event.completeIntent(plugin);
         });
     }
 
     // Окончательная проверка и инициализация геймера
     @EventHandler(priority = LOW)
-    public void onLoginGamer(final @NotNull AsyncGamerLoginEvent event) {
+    public void onLoginGamer(final @NotNull AsyncUserLoginEvent event) {
         event.registerIntent(plugin);
         BungeeScheduler.submitAsync(() -> {
             val connection = event.getConnection();
             val name = connection.getName();
 
-            val bungeeGamer = gamers2.remove(name.toLowerCase());
-            if (bungeeGamer == null) {
+            val user = gamers2.remove(name.toLowerCase());
+            if (user == null) {
                 event.setCancelReason(new TextComponent(
                         """
                         §d§lSightWorld
@@ -171,13 +176,13 @@ public class GamerListener extends EventListener<SightWorld> {
         val player = event.getPlayer();
         val connection = player.getPendingConnection();
 
-        val gamer = BungeeGamer.getGamer(player.getName());
-        if (gamer != null) {
-            final Callback<AsyncGamerQuitEvent> callback = (result, throwable) -> {
-                gamer.disconnect(player.getServer());
+        val user = userService.getUser(player.getName());
+        if (user != null) {
+            final Callback<AsyncUserQuitEvent> callback = (result, throwable) -> {
+                userService.disconnectUser(user, player.getServer().getInfo().getName());
             };
 
-            BungeeScheduler.callEventAsync(new AsyncGamerQuitEvent(gamer, connection, callback));
+            BungeeScheduler.callEventAsync(new AsyncUserQuitEvent((ProxiedUser) user, connection, callback));
 
         }
     }
@@ -187,10 +192,10 @@ public class GamerListener extends EventListener<SightWorld> {
         val player = event.getPlayer();
         val connection = player.getPendingConnection();
         val target = event.getServer();
-        val gamer = BungeeGamer.getGamer(player.getName());
+       /* val gamer = BungeeGamer.getGamer(player.getName());
          BungeeScheduler.submitAsync(()-> {
 
-        });
+        });*/
     }
 
 

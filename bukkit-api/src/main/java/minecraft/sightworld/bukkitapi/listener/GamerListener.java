@@ -1,22 +1,19 @@
 package minecraft.sightworld.bukkitapi.listener;
 
 
-import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 import minecraft.sightworld.bukkitapi.SightWorld;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitGamer;
-import minecraft.sightworld.bukkitapi.gamer.entity.BukkitServer;
-import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerJoinEvent;
+import minecraft.sightworld.bukkitapi.user.BukkitUser;
+import minecraft.sightworld.bukkitapi.user.event.AsyncGamerJoinEvent;
 import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerLoadSectionEvent;
-import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerPreLoginEvent;
-import minecraft.sightworld.bukkitapi.gamer.event.AsyncGamerQuitEvent;
+import minecraft.sightworld.bukkitapi.user.event.AsyncGamerPreLoginEvent;
+import minecraft.sightworld.bukkitapi.user.event.AsyncGamerQuitEvent;
 import minecraft.sightworld.bukkitapi.gamer.impl.BukkitGamerImpl;
 import minecraft.sightworld.bukkitapi.packet.team.TeamManager;
 import minecraft.sightworld.bukkitapi.scheduler.BukkitScheduler;
-import minecraft.sightworld.defaultlib.gamer.GamerAPI;
-import minecraft.sightworld.defaultlib.gamer.section.Section;
+import minecraft.sightworld.defaultlib.user.service.UserService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,16 +32,15 @@ import static minecraft.sightworld.bukkitapi.packet.team.TeamManager.getTeam;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class GamerListener extends EventListener<SightWorld> {
-    public GamerListener(SightWorld javaPlugin) {
+
+    private final UserService<Player> userService;
+    public GamerListener(SightWorld javaPlugin, UserService<Player> userService) {
         super(javaPlugin);
+        this.userService = userService;
     }
 
-    Map<String, BukkitGamerImpl> gamers = new ConcurrentHashMap<>();
-    BukkitServer server = SightWorld.getGamerManager().getServer();
+    Map<String, BukkitUser> gamers = new ConcurrentHashMap<>();
 
-    ImmutableSet<Class<? extends Section>> loadedSections = ImmutableSet.of(
-
-    );
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void loadData(final @NotNull AsyncPlayerPreLoginEvent e) {
@@ -63,40 +59,29 @@ public final class GamerListener extends EventListener<SightWorld> {
             }
         }
 
-        GamerAPI.removeOfflinePlayer(name);
-        BukkitGamer gamer = null;
-        try {
-            gamer = new BukkitGamerImpl(e); //создаем геймера
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
 
-        if (gamer == null) {
+        BukkitUser bukkitUser = (BukkitUser) userService.getUser(name);
+
+        if (bukkitUser == null) {
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "§cОшибка при загрузке данных");
             return;
         }
 
-        BukkitScheduler.callEvent(new AsyncGamerPreLoginEvent(gamer, e));
+        BukkitScheduler.callEvent(new AsyncGamerPreLoginEvent(bukkitUser, e));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onLoadGamer(final @NotNull AsyncGamerPreLoginEvent e) {
-        val gamer = (BukkitGamerImpl) e.getGamer();
+        val gamer = e.getUser();
 
-        server.sendMessage("§fДанные игрока §b" + gamer.getName() + "§r загружены за (§b"
-                + (System.currentTimeMillis() - gamer.getStart()) + "ms§f)");
+        Bukkit.getLogger().info("§fДанные игрока §b" + gamer.getName() + "§r загружены");
 
         gamers.put(gamer.getName().toLowerCase(), gamer);
     }
 
     @EventHandler
-    public void onLoadSection(final @NotNull AsyncGamerLoadSectionEvent e) {
-        e.getSections().addAll(loadedSections); //инициализируем дополнительные секции которые должны быть загружены
-    }
-
-    @EventHandler
     public void onGamerJoin(PlayerJoinEvent e) {
-        val gamer = BukkitGamer.getGamer(e.getPlayer());
+        val gamer = userService.getUser(e.getPlayer().getName());
         val team = getTeam(0, gamer);
 
         Bukkit.getOnlinePlayers().forEach(target -> {
@@ -126,7 +111,7 @@ public final class GamerListener extends EventListener<SightWorld> {
             return;
         }
 
-        if (gamer.isRedAdmin()) {
+        if (false) { //TODO KEK
             player.setOp(true);
         } else {
             PermissionAttachment attachment = player.addAttachment(javaPlugin);

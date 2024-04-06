@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.val;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.bungeeapi.command.BungeeCommand;
-import minecraft.sightworld.bungeeapi.gamer.entity.BungeeEntity;
+import minecraft.sightworld.defaultlib.user.User;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.HashSet;
@@ -17,14 +17,14 @@ public class BungeeWhitelistCommand extends BungeeCommand<SightWorld> {
     }
 
     @Override
-    public void execute(BungeeEntity entity, String[] args) {
+    public void execute(User<?> entity, String[] args) {
         if (args.length == 0) {
-            entity.sendMessage(new TextComponent(
+            entity.sendMessage(
                     """
                         §d     /bwl on/off §f- Включить/Выключить белый список
                         §d     /bwl list §f- Вывести список игроков в белом списке
                         §d     /bwl add/del <игрок> §f- Добавить/удалить игрока из белого списка
-                        """));
+                        """);
             return;
         }
 
@@ -65,16 +65,16 @@ public class BungeeWhitelistCommand extends BungeeCommand<SightWorld> {
                 entity.sendMessage(" §5" + Joiner.on("§7, §5").join(
                         plugin.getWhitelistManager().getPlayerNames()));
             }
-            default -> entity.sendMessage(new TextComponent(
+            default -> entity.sendMessage(
                     """
                             §d     /bwl on/off §f- Включить/Выключить белый список
                             §d     /bwl list §f- Вывести список игроков в белом списке
-                            §d     /bwl add/del <игрок> §f- Добавить/удалить игрока из белого списка"""));
+                            §d     /bwl add/del <игрок> §f- Добавить/удалить игрока из белого списка""");
         }
     }
 
     @Override
-    public Iterable<String> tabComplete(BungeeEntity entity, String[] args) {
+    public Iterable<String> tabComplete(User<?> entity, String[] args) {
         if (args.length == 0) return ImmutableSet.of();
 
         Set<String> matches = new HashSet<>();

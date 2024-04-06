@@ -12,6 +12,7 @@ import minecraft.sightworld.bungeeapi.listener.GamerListener;
 import minecraft.sightworld.bungeeapi.listener.PingListener;
 import minecraft.sightworld.bungeeapi.scheduler.SchedulerManager;
 import minecraft.sightworld.bungeeapi.tab.TabManager;
+import minecraft.sightworld.bungeeapi.user.service.UserServiceImpl;
 import minecraft.sightworld.bungeeapi.whitelist.WhitelistManager;
 import minecraft.sightworld.defaultlib.database.Database;
 import minecraft.sightworld.defaultlib.localization.LocalizationService;
@@ -69,6 +70,9 @@ public final class SightWorld extends Plugin {
     @Getter
     private static Database database;
 
+    @Getter
+    private static UserService<ProxiedPlayer> userService;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -77,7 +81,9 @@ public final class SightWorld extends Plugin {
         loadLocalization();
         loadConfigs();
 
-        registerListeners(localizationService);
+        userService = new UserServiceImpl(database.getUserDao());
+
+        registerListeners(localizationService, userService);
         registerCommands();
 
         bungeeGuiService = new BungeeGuiServiceImpl();
