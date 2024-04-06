@@ -32,7 +32,6 @@ public class LuckPermsManager {
             if (e.isUser()) {
                 User user = (User) e.getTarget();
                 String prefix = user.getCachedData().getMetaData().getPrefix();
-
                 syncPrefix(user.getUsername(), Objects.requireNonNullElse(prefix, "§7"));
             }
         });

@@ -12,6 +12,8 @@ repositories {
 
 dependencies {
     compileOnly 'mysql:mysql-connector-java:8.0.28'
+
+    implementation group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '6.1'
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation 'net.sf.ehcache:ehcache:2.10.6'
     implementation 'org.jetbrains:annotations:24.0.1'

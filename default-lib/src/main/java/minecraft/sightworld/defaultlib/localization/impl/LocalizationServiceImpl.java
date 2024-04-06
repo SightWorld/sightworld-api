@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import minecraft.sightworld.defaultlib.localization.Language;
 import minecraft.sightworld.defaultlib.localization.LocalizationService;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -38,7 +39,6 @@ public class LocalizationServiceImpl implements LocalizationService {
             URL url = new URL(String.format(fileUrl));
 
             InputStreamReader inputStream = new InputStreamReader(url.openStream(), StandardCharsets.UTF_8);
-
             parseKeys(JsonParser.parseReader(inputStream).getAsJsonObject().entrySet(), filePrefix);
         } catch (Exception e) {
             e.printStackTrace();
