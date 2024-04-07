@@ -24,13 +24,11 @@ public abstract class User<P> {
     }
     public long getPlayedTime() {
         long playedTime = 0;
-
         for (UserSession session : userData.getSessions()) {
-            if (userData.getActiveSession() != null && session == userData.getActiveSession()) {
-                playedTime += (System.currentTimeMillis() - userData.getActiveSession().getStartPlay()) / 1000;
-                continue;
-            }
             playedTime += session.getPlayed();
+        }
+        if (userData.getActiveSession() != null) {
+            playedTime += (System.currentTimeMillis() - userData.getActiveSession().getStartPlay()) / 1000;
         }
         return playedTime;
     }
@@ -61,5 +59,6 @@ public abstract class User<P> {
     public abstract void sendMessage(List<String> message);
     public abstract void sendMessageLocale(String key, Object... args);
     public abstract boolean hasPermission(String permission);
+    public abstract void syncData(SyncUserData data);
 
 }

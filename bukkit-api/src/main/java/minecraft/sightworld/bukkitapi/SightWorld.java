@@ -9,6 +9,7 @@ import minecraft.sightworld.bukkitapi.gui.*;
 import minecraft.sightworld.bukkitapi.listener.GamerListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeGuiListener;
 import minecraft.sightworld.bukkitapi.listener.message.BungeeSoundListener;
+import minecraft.sightworld.bukkitapi.listener.message.SyncListener;
 import minecraft.sightworld.bukkitapi.scoreboard.listener.BaseScoreboardListener;
 import minecraft.sightworld.bukkitapi.user.service.BukkitUserServiceImpl;
 import minecraft.sightworld.defaultlib.database.Database;
@@ -44,6 +45,8 @@ public class SightWorld extends JavaPlugin {
     @Getter
     private static UserService<Player> userService;
 
+    @Getter
+    private static MessageService messagingService;
     @Override
     public void onLoad() {
         protocolManager = ProtocolLibrary.getProtocolManager();
@@ -55,9 +58,9 @@ public class SightWorld extends JavaPlugin {
         instance = this;
 
         loadDatabase();
-        loadLocalization();
-
         userService = new BukkitUserServiceImpl(database.getUserDao());
+
+        loadLocalization();
 
         registerGuiService();
         registerMessageService();
@@ -106,9 +109,10 @@ public class SightWorld extends JavaPlugin {
         RedisFactory redisFactory = new DefaultRedisFactory();
         RedissonClient redissonClient = redisFactory.create();
 
-        MessageServiceImpl messagingService = new MessageServiceImpl(redissonClient);
+        messagingService = new MessageServiceImpl(redissonClient);
         messagingService.addListener(new BungeeGuiListener(messagingService), "gui");
         messagingService.addListener(new BungeeSoundListener(), "sound");
+        messagingService.addListener(new SyncListener(userService), "bukkit-user-sync");
 
         return messagingService;
 

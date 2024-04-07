@@ -118,6 +118,11 @@ public class BungeeUserServiceImpl implements UserService<ProxiedPlayer> {
     }
 
     @Override
+    public User<ProxiedPlayer> getOnlineUser(String name) {
+        return users.get(name.toLowerCase());
+    }
+
+    @Override
     public void addOnlineUser(User<ProxiedPlayer> user) {
         users.put(user.getName().toLowerCase(), (ProxiedUser) user);
     }

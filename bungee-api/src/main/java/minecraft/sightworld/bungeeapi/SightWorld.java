@@ -6,6 +6,7 @@ import minecraft.sightworld.bungeeapi.announce.AnnounceManager;
 import minecraft.sightworld.bungeeapi.command.impl.BungeeApiCommand;
 import minecraft.sightworld.bungeeapi.command.impl.BungeeWhitelistCommand;
 import minecraft.sightworld.bungeeapi.gui.acceptor.AcceptorListener;
+import minecraft.sightworld.bungeeapi.listener.SyncListener;
 import minecraft.sightworld.bungeeapi.gui.service.BungeeGuiService;
 import minecraft.sightworld.bungeeapi.gui.service.impl.BungeeGuiServiceImpl;
 import minecraft.sightworld.bungeeapi.listener.GamerListener;
@@ -78,10 +79,11 @@ public final class SightWorld extends Plugin {
         instance = this;
 
         loadDatabase();
+        userService = new BungeeUserServiceImpl(database.getUserDao());
+
         loadLocalization();
         loadConfigs();
 
-        userService = new BungeeUserServiceImpl(database.getUserDao());
 
         registerListeners(localizationService, userService);
         registerCommands();
@@ -135,7 +137,7 @@ public final class SightWorld extends Plugin {
 
         MessageServiceImpl messagingService = new MessageServiceImpl(redissonClient);
         messagingService.addListener(new AcceptorListener(bungeeGuiService), "gui-acceptor");
-
+        messagingService.addListener(new SyncListener(userService), "proxy-user-sync");
         return messagingService;
 
     }

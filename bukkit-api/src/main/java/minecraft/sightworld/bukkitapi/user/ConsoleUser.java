@@ -3,6 +3,7 @@ package minecraft.sightworld.bukkitapi.user;
 import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.defaultlib.localization.Language;
 import minecraft.sightworld.defaultlib.sound.SSound;
+import minecraft.sightworld.defaultlib.user.SyncUserData;
 import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.user.UserData;
 import org.bukkit.Bukkit;
@@ -56,5 +57,10 @@ public class ConsoleUser extends User<ConsoleCommandSender> {
     @Override
     public boolean hasPermission(String permission) {
         return true;
+    }
+
+    @Override
+    public void syncData(SyncUserData data) {
+
     }
 }

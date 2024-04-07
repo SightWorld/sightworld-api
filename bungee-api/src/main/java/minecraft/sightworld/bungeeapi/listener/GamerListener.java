@@ -8,7 +8,10 @@ import minecraft.sightworld.bungeeapi.user.event.AsyncUserLoginEvent;
 import minecraft.sightworld.bungeeapi.user.event.AsyncUserQuitEvent;
 import minecraft.sightworld.bungeeapi.scheduler.BungeeScheduler;
 import minecraft.sightworld.bungeeapi.user.ProxiedUser;
+import minecraft.sightworld.bungeeapi.util.ServerUtil;
+import minecraft.sightworld.defaultlib.user.SyncUserData;
 import minecraft.sightworld.defaultlib.user.service.UserService;
+import minecraft.sightworld.defaultlib.user.session.UserSession;
 import net.md_5.bungee.api.Callback;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -179,7 +182,7 @@ public class GamerListener extends EventListener<SightWorld> {
         val user = userService.getUser(player.getName());
         if (user != null) {
             final Callback<AsyncUserQuitEvent> callback = (result, throwable) -> {
-                userService.disconnectUser(user, player.getServer().getInfo().getName());
+                userService.disconnectUser(user, ServerUtil.getName(player.getServer()));
             };
 
             BungeeScheduler.callEventAsync(new AsyncUserQuitEvent((ProxiedUser) user, connection, callback));
@@ -190,9 +193,14 @@ public class GamerListener extends EventListener<SightWorld> {
     @EventHandler(priority = LOW) // TODO: Инициализация скина после захода на баккит сервер
     public void onServerConnect(final @NotNull ServerConnectedEvent event) {
         val player = event.getPlayer();
-        val connection = player.getPendingConnection();
+
+        ProxiedUser user = (ProxiedUser) userService.getUser(player.getName());
+        UserSession userSession = user.getUserData().getActiveSession();
+        userSession.setServer(ServerUtil.getName(event.getServer()));
+        user.syncData(new SyncUserData(user.getName(), "activeSession", userSession));
+        /*val connection = player.getPendingConnection();
         val target = event.getServer();
-       /* val gamer = BungeeGamer.getGamer(player.getName());
+        val gamer = BungeeGamer.getGamer(player.getName());
          BungeeScheduler.submitAsync(()-> {
 
         });*/

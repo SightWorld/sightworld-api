@@ -15,6 +15,7 @@ public interface UserService<T> {
     void saveUser(User<T> user);
     User<T> getUser(String name);
     User<T> getOrCreate(String name);
+    User<T> getOnlineUser(String name);
     void addOnlineUser(User<T> user);
     void removeOnlineUser(String user);
     void addOfflineUser(User<T> user);

@@ -15,6 +15,8 @@ public class ApiCommand extends BukkitCommand<SightWorld> {
 
     @Override
     public void execute(User<?> entity, String[] args) {
+        BukkitUser user = (BukkitUser) entity;
+        user.sendMessage("Ваше наигранное время: " + user.getPlayedTime() + " секунд");
         if (!entity.hasPermission("sightworld.admin")) {
             entity.sendMessageLocale("main_no_perm");
             return;

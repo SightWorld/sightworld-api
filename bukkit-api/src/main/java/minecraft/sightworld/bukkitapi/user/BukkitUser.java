@@ -6,6 +6,7 @@ import minecraft.sightworld.bukkitapi.SightWorld;
 import minecraft.sightworld.defaultlib.localization.Language;
 import minecraft.sightworld.defaultlib.sound.BungeeSoundDto;
 import minecraft.sightworld.defaultlib.sound.SSound;
+import minecraft.sightworld.defaultlib.user.SyncUserData;
 import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.user.UserData;
 import net.md_5.bungee.api.ChatMessageType;
@@ -79,6 +80,11 @@ public class BukkitUser extends User<Player> {
         if (player == null)
             return false;
         return player.hasPermission(permission); //TODO
+    }
+
+    @Override
+    public void syncData(SyncUserData data) {
+        SightWorld.getMessagingService().sendMessage(data, "proxy-user-sync");
     }
 
     public int getVersion() {

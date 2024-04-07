@@ -3,6 +3,7 @@ package minecraft.sightworld.bungeeapi.user;
 import minecraft.sightworld.bungeeapi.SightWorld;
 import minecraft.sightworld.defaultlib.localization.Language;
 import minecraft.sightworld.defaultlib.sound.SSound;
+import minecraft.sightworld.defaultlib.user.SyncUserData;
 import minecraft.sightworld.defaultlib.user.User;
 import minecraft.sightworld.defaultlib.user.UserData;
 import net.md_5.bungee.api.CommandSender;
@@ -56,5 +57,10 @@ public class ConsoleUser extends User<CommandSender> {
     @Override
     public boolean hasPermission(String permission) {
         return true;
+    }
+
+    @Override
+    public void syncData(SyncUserData data) {
+
     }
 }

@@ -24,7 +24,7 @@ public class UserSession {
     private long id;
 
     @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
-    private UserData userData;
+    private transient UserData userData;
 
     @DatabaseField
     private String ip;

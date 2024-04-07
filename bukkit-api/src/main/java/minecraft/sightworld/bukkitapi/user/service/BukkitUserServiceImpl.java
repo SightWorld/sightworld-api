@@ -104,6 +104,11 @@ public class BukkitUserServiceImpl implements UserService<Player> {
     }
 
     @Override
+    public User<Player> getOnlineUser(String name) {
+        return users.get(name.toLowerCase());
+    }
+
+    @Override
     public void addOnlineUser(User<Player> user) {
         users.put(user.getName().toLowerCase(), (BukkitUser) user);
     }
